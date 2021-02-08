@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.ems.core.mapper.RoleMenuMapper">
+    <select id="selectMenusByRoleId" resultType="Menu">
+        SELECT
+        p.*
+        FROM
+        ems_role_menu rp
+        LEFT JOIN ems_menu p ON rp.menu_id = p.id
+        WHERE 1=1
+        <if test="roleId!=null">
+            AND	role_id= #{roleId}
+        </if>
+    </select>
+</mapper>

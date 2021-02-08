@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.ems.miniProgram.mapper.MiniUserMapper">
+    <insert id="insert" parameterType="com.chen.ems.core.pojo.User">
+        insert into ems_mini_user(open_id, token, create_time, last_visit_time, session_key, city, province, country, avatar_url, gender, nick_name)
+         values (#{openId},#{skey},#{createTime},#{lastVisitTime},#{sessionKey},#{city},#{province},#{country},#{avatarUrl},#{gender},#{nickName})
+    </insert>
+
+    <update id="updateById" parameterType="com.chen.ems.core.pojo.User">
+        update ems_mini_user set token = #{token},last_visit_time = #{lastVisitTime} where open_id = #{openId}
+    </update>
+</mapper>
