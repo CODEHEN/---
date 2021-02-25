@@ -1,10 +1,13 @@
 package com.chen.ems.core.model;
 
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.google.common.collect.Sets;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @Author: CHENLIHUI
@@ -26,7 +29,22 @@ public class UserInfoVO implements Serializable {
     private String username;
 
     /**
-     * 性别：0是男 1是女
+     * 班级
+     */
+    private String classes;
+
+    /**
+     * 学院
+     */
+    private String college;
+
+    /**
+     * 专业
+     */
+    private String major;
+
+    /**
+     * 性别
      */
     private String sex;
 
@@ -52,6 +70,6 @@ public class UserInfoVO implements Serializable {
 
     private Set<String> roles = Sets.newHashSet();
 
-    private Set<MenuVO> menus = Sets.newHashSet();
+    private Set<MenuVO> menus = new LinkedHashSet<>();
 
 }

@@ -33,6 +33,9 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
+    MyLogoutSuccessHandler myLogoutSuccessHandler;
+
+    @Autowired
     MyProperties myProperties;
 
     @Autowired
@@ -121,6 +124,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 禁用CSRF 开启跨域
         http.csrf().disable().cors();
 
+        http.logout().logoutUrl("/logout")
+                .logoutSuccessHandler(myLogoutSuccessHandler)
+                .permitAll();
+
         // 未登录认证异常
         http.exceptionHandling().authenticationEntryPoint(adminAuthenticationEntryPoint);
 
@@ -138,7 +145,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         });
 
         // 不创建会话 - 即通过前端传token到后台过滤器中验证是否存在访问权限
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         // 允许匿名的url - 可理解为放行接口 - 除配置文件忽略url以外，其它所有请求都需经过认证和授权
         for (String url : myProperties.getAuth().getIgnoreUrls()) {

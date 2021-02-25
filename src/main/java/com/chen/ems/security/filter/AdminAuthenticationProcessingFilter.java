@@ -2,9 +2,6 @@ package com.chen.ems.security.filter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.chen.ems.core.pojo.User;
-import com.chen.ems.security.login.AdminAuthenticationFailureHandler;
-import com.chen.ems.security.login.AdminAuthenticationSuccessHandler;
-import com.chen.ems.security.login.CusAuthenticationManager;
 import com.chen.ems.utils.Constants;
 import com.chen.ems.utils.MultiReadHttpServletRequest;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -13,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +43,7 @@ public class AdminAuthenticationProcessingFilter extends AbstractAuthenticationP
         } catch (Exception e) {
             throw new AuthenticationServiceException(e.getMessage());
         }
-        return this.getAuthenticationManager().authenticate(authRequest);
+        Authentication authentication = this.getAuthenticationManager().authenticate(authRequest);
+        return authentication;
     }
 }

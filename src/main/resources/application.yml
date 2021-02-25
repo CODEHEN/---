@@ -30,6 +30,7 @@ ems:
       - /wx/login
       - /login
       - /user/getCurrentUserInfo
+#      - /user/userInfoExcel
       - /index
       - /logout
       - /swagger-ui.html

@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ import java.util.List;
  * @Date: Create in 21:01 2020/8/15
  */
 @Data
-public class MenuVO implements Serializable {
+public class MenuVO  implements Serializable{
 
     @JsonIgnore
     private transient Integer id;
@@ -28,7 +29,7 @@ public class MenuVO implements Serializable {
     /**
      * 菜单编码
      */
-//    private String resources;
+    private String resources;
 
     /**
      * 菜单名称
@@ -38,12 +39,12 @@ public class MenuVO implements Serializable {
     /**
      * 菜单级别
      */
-//    private Integer level;
+    private Integer level;
 
     /**
      * 菜单图标
      */
-//    private String icon;
+    private String icon;
 
     /**
      * 组件
@@ -57,6 +58,10 @@ public class MenuVO implements Serializable {
     @ApiModelProperty(value = "path")
     private String path;
 
-    List<MenuVO> children = Lists.newArrayList();
+    /**
+     *排序
+     */
+    private Integer sortNo;
 
+    List<MenuVO> children = Lists.newArrayList();
 }

@@ -5,17 +5,19 @@ import com.chen.ems.core.model.MenuTreeNode;
 import com.chen.ems.core.model.MenuVO;
 import com.google.common.collect.Lists;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TreeBuilder {
 
     public static Set<MenuVO> buildTree(Set<MenuVO> allNodes) {
         // 根节点
-        Set<MenuVO> root = new HashSet<>();
+        Set<MenuVO> root = new TreeSet<>(new Comparator<MenuVO>() {
+            @Override
+            public int compare(MenuVO o1, MenuVO o2) {
+                return o1.getSortNo().compareTo(o2.getSortNo());
+            }
+        });
         allNodes.forEach(node -> {
             if (Integer.valueOf( node.getParentId() ) == 0) {
                 root.add(node);

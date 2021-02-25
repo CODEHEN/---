@@ -1,6 +1,10 @@
 package com.chen.ems.core.service;
 
 import com.chen.ems.core.model.UserInfoVO;
+import com.chen.ems.core.pojo.User;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * @Author: CHENLIHUI
@@ -9,4 +13,8 @@ import com.chen.ems.core.model.UserInfoVO;
  */
 public interface UserService {
     UserInfoVO getCurrentUserInfo(String token);
+
+    int insertUserByExcel(List<User> userList);
+
+    void insertUserRoleByExcel(List<User> list,int roleId);
 }

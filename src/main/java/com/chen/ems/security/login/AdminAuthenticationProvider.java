@@ -55,7 +55,7 @@ public class AdminAuthenticationProvider implements AuthenticationProvider {
         // 生成jwt访问令牌
         String jwt = Jwts.builder()
                 // 用户角色
-                .claim(Constants.ROLE_LOGIN, roleCodes)
+                .claim("ROLE",roleCodes)
                 // 主题 - 存用户名
                 .setSubject(authentication.getName())
                 // 过期时间 - 3分钟

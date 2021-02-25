@@ -1,6 +1,9 @@
 package com.chen.ems.core.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelReader;
+import com.chen.ems.common.exception.MyException;
 import com.chen.ems.core.mapper.RoleMenuMapper;
 import com.chen.ems.core.mapper.UserMapper;
 import com.chen.ems.core.mapper.UserRoleMapper;
@@ -10,14 +13,16 @@ import com.chen.ems.core.pojo.Menu;
 import com.chen.ems.core.pojo.Role;
 import com.chen.ems.core.pojo.User;
 import com.chen.ems.core.service.UserService;
+import com.chen.ems.utils.ExcelUtils;
 import com.chen.ems.utils.TreeBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * @Author: CHENLIHUI
@@ -52,6 +57,7 @@ public class UserServiceImpl implements UserService {
 
             //查询某个角色的菜单
             List<Menu> menuList = roleMenuMapper.selectMenusByRoleId( roleList.get(0).getId() );
+
             if(menuList != null && !menuList.isEmpty() ){
                 menuList.stream().filter(Objects::nonNull).forEach(menu -> {
                     if ("menu".equals(menu.getType().toLowerCase())) {
@@ -64,8 +70,19 @@ public class UserServiceImpl implements UserService {
             }
         }
         userInfoVO.getRoles().addAll( roles );
+
         userInfoVO.getMenus().addAll( TreeBuilder.buildTree(menuVOS) );
 
         return userInfoVO;
+    }
+
+    @Override
+    public int insertUserByExcel(List<User> userList) {
+        return userMapper.insertUserByExcel(userList);
+    }
+
+    @Override
+    public void insertUserRoleByExcel(List<User> list,int roleId) {
+        userMapper.insertUserRoleByExcel(list,roleId);
     }
 }

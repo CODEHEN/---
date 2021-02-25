@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.ems.core.mapper.UserMapper">
+    <insert id="insertUserByExcel" parameterType="list" keyProperty="id" useGeneratedKeys="true" keyColumn="id">
+        insert into ems_user(number, username, password, salt, classes, sex, origin, phone, email, political, address, college, major) VALUES
+            <foreach collection="users" item="user" separator=",">
+             (#{user.number},#{user.username},#{user.password},#{user.salt},#{user.classes},#{user.sex},#{user.origin},#{user.phone},#{user.email},#{user.political},#{user.address},#{user.college},#{user.major})
+            </foreach>
+    </insert>
+
+    <insert id="insertUserRoleByExcel">
+        insert into ems_user_role(user_id, role_id) values
+            <foreach collection="users" item="user" separator=",">
+                (#{user.id}，#{roleId})
+            </foreach>
+    </insert>
+
+</mapper>

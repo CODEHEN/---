@@ -66,10 +66,10 @@ public class MyAuthenticationFilter extends OncePerRequestFilter {
             log.debug("后台检查令牌:{}", jwtToken);
             if (StringUtils.isNotBlank(jwtToken) && !"undefined".equals(jwtToken)) {
                 // JWT相关start ===========================================
-                // 获取jwt中的信息
-                Claims claims = Jwts.parser().setSigningKey(Constants.SALT).parseClaimsJws(jwtToken.replace("Bearer", "")).getBody();
-                // 获取当前登录用户名
-                System.out.println("获取当前登录用户名: " + claims.getSubject());
+//                // 获取jwt中的信息
+//                Claims claims = Jwts.parser().setSigningKey(Constants.SALT).parseClaimsJws(jwtToken.replace("Bearer", "")).getBody();
+//                // 获取当前登录用户名
+//                System.out.println("获取当前登录用户名: " + claims.getSubject());
                 // TODO 如需使用jwt特性在此做处理~
                 // JWT相关end ===========================================
                 // 检查token

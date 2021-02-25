@@ -1,5 +1,6 @@
 package com.chen.ems.core.pojo;
 
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.chen.ems.common.validator.Create;
 import com.chen.ems.common.validator.FieldRepeatValidator;
 import com.chen.ems.common.validator.Update;
@@ -39,6 +40,7 @@ public class User implements Serializable {
     @ApiModelProperty(value = "学号")
     @NotBlank(message = "学号不能为空", groups = {Create.class, Update.class})
     @Pattern(regexp = "^[0-9]$", message = "只能包含数字")
+    @ExcelProperty("学号")
     private String number;
 
     /**
@@ -47,6 +49,7 @@ public class User implements Serializable {
     @ApiModelProperty(value = "姓名")
     @NotBlank(message = "姓名不能为空", groups = {Create.class, Update.class})
     @Length(min = 2, message = "姓名最少两个字符")
+    @ExcelProperty("姓名")
     private String username;
 
     /**
@@ -54,20 +57,70 @@ public class User implements Serializable {
      */
     @ApiModelProperty(value = "登录密码")
     @NotBlank(message = "密码不能为空", groups = {Create.class, Update.class})
-    @Length(min = 6,max = 12, message = "密码长度6-12位")
+    @ExcelProperty("密码")
     private String password;
 
     /**
      * 盐值
      */
     @ApiModelProperty(value = "盐值")
+    @ExcelProperty("盐")
     private String salt;
 
+
     /**
-     * token
+     * 班级
      */
-    @ApiModelProperty(value = "token")
-    private String token;
+    @ExcelProperty("班级")
+    private String classes;
+
+    /**
+     * 生源地
+     */
+    @ExcelProperty("生源地区")
+    private String origin;
+
+    /**
+     * 联系电话
+     */
+    @ExcelProperty("联系电话")
+    private String phone;
+
+    /**
+     * 邮箱
+     */
+    @ExcelProperty("邮箱")
+    private String email;
+
+    /**
+     * 政治面貌
+     */
+    @ExcelProperty("政治面貌")
+    private String political;
+
+    /**
+     * 家庭地址
+     */
+    @ExcelProperty("家庭地址")
+    private String address;
+
+    /**
+     * 学院
+     */
+    @ExcelProperty("学院")
+    private String college;
+
+    /**
+     * 专业
+     */
+    @ExcelProperty("专业")
+    private String major;
+
+    /**
+     * 性别
+     */
+    @ExcelProperty("性别")
+    private String sex;
 
     /**
      * open_id
@@ -91,30 +144,17 @@ public class User implements Serializable {
      * session_key
      */
     private String sessionKey;
+
     /**
-     * 市
+     * token
      */
-    private String city;
-    /**
-     * 省
-     */
-    private String province;
-    /**
-     * 国
-     */
-    private String country;
+    @ApiModelProperty(value = "token")
+    private String token;
+
     /**
      * 头像
      */
-    private String avatarUrl;
-    /**
-     * 性别
-     */
-    private Integer gender;
-    /**
-     * 网名
-     */
-    private String nickName;
-
+    @ApiModelProperty(value = "avatar")
+    private String avatar;
 
 }

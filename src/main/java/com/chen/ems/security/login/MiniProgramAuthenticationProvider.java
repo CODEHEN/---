@@ -49,7 +49,7 @@ public class MiniProgramAuthenticationProvider implements AuthenticationProvider
                 // 用户角色
                 .claim(Constants.ROLE_LOGIN, "wx")
                 // 主题 - 存用户名
-                .setSubject(((User) authentication.getPrincipal()).getNickName())
+                .setSubject(((User) authentication.getPrincipal()).getUsername())
                 // 过期时间 - 3分钟
                 .setExpiration(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
                 // 加密算法和密钥

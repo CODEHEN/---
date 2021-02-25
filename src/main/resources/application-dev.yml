@@ -2,10 +2,6 @@ server:
   port: 8080
 
 spring:
-  security:
-    user:
-      name: user
-      password: 19981007
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/ems?useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC&useAffectedRows=true
@@ -48,6 +44,11 @@ spring:
         url-pattern: /*
         # 忽略过滤格式
         exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+# 关闭安全验证
+management:
+  security:
+    enabled: false
+
 mybatis:
   mapper-locations: classpath:mybatis/*/*.xml
   config-location: classpath:mybatis/mybatis-config.xml
