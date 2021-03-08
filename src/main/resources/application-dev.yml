@@ -52,3 +52,10 @@ management:
 mybatis:
   mapper-locations: classpath:mybatis/*/*.xml
   config-location: classpath:mybatis/mybatis-config.xml
+
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql

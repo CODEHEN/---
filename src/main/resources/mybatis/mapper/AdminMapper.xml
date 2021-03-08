@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.ems.core.mapper.AdminMapper">
+        <select id="getStudentInfo" parameterType="com.chen.ems.core.model.UserInfoVO" resultType="com.chen.ems.core.model.UserInfoVO">
+            select id, number, username, classes, sex, origin, phone, email, political, address, college, major
+             FROM ems_user
+             <where>
+                 id in(SELECT user_id FROM ems_user_role where role_id = 2)
+                 <if test="number != null and number != ''">
+                    and number = #{number}
+                 </if>
+                 <if test="username != null and username != ''">
+                     and username = #{username}
+                 </if>
+                 <if test="college != null and college != ''">
+                     and college = #{college}
+                 </if>
+                 <if test="classes != null and classes != ''">
+                     and classes = #{classes}
+                 </if>
+             </where>
+        </select>
+</mapper>

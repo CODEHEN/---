@@ -14,6 +14,7 @@ import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
@@ -52,6 +53,8 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
         //获取当前请求url
         String url = ((FilterInvocation) o).getRequestUrl();
 
+        AntPathMatcher antPathMatcher = new AntPathMatcher();
+
         // TODO 忽略url请放在此处进行过滤放行
         for (String ignoreUrl : myProperties.getAuth().getIgnoreUrls()) {
             if (ignoreUrl.equals(url)){
@@ -70,7 +73,7 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
             if (permission.getPath() == null) {
                 continue;
             }
-            if ((permission.getPath()).equals(url)) {
+            if ((permission.getPath()).equals(url) || antPathMatcher.match(permission.getPath(),url)) {
                 List<RoleMenu> permissions = roleMenuMapper.selectList(permission.getId());
                 List<String> roles = new LinkedList<>();
                 if (!CollectionUtils.isEmpty(permissions)){

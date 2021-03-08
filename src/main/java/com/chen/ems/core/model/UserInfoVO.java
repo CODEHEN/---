@@ -68,6 +68,16 @@ public class UserInfoVO implements Serializable {
      */
     private String flag;
 
+    /**
+     * 生源地
+     */
+    private String origin;
+
+    /**
+     * 家庭地址
+     */
+    private String address;
+
     private Set<String> roles = Sets.newHashSet();
 
     private Set<MenuVO> menus = new LinkedHashSet<>();
