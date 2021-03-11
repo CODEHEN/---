@@ -24,10 +24,10 @@ public class ClassesController {
     @Autowired
     private ClassesService classesService;
 
-    @GetMapping("/{collegeId}")
+    @GetMapping("/{collegeName}")
     @ApiOperation(value = "获取某学院下的班级", httpMethod = "GET", response = ApiResult.class, notes = "获取成功")
-    public ApiResult getClassesByCollege(@PathVariable("collegeId") int id) {
-        List<ClassesVO> classesVOS = classesService.getClassByCollege(id);
+    public ApiResult getClassesByCollege(@PathVariable("collegeName") String name) {
+        List<ClassesVO> classesVOS = classesService.getClassByCollege(name);
         return ApiResult.ok(200,"获取成功",classesVOS);
     }
 

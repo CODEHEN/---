@@ -20,8 +20,8 @@ public class ClassesServiceImpl implements ClassesService {
     private ClassesMapper classesMapper;
 
     @Override
-    public List<ClassesVO> getClassByCollege(int id) {
-        return classesMapper.getClassByCollege(id);
+    public List<ClassesVO> getClassByCollege(String name) {
+        return classesMapper.getClassByCollege(name);
     }
 }
 

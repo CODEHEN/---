@@ -10,6 +10,6 @@ import java.util.List;
 * @Date: 创建于20:06 2021-03-03
 **/
 public interface ClassesService {
-    List<ClassesVO> getClassByCollege(int id);
+    List<ClassesVO> getClassByCollege(String name);
 }
 
