@@ -20,6 +20,40 @@
                  <if test="classes != null and classes != ''">
                      and classes = #{classes}
                  </if>
+                 <if test="major != null and major != ''">
+                     and major = #{major}
+                 </if>
              </where>
         </select>
+
+        <update id="updateStudent" parameterType="com.chen.ems.core.model.UserInfoVO">
+            update ems_user set number=#{number},username=#{username},classes=#{classes},sex=#{sex},origin=#{origin},phone=#{phone},email=#{email},political=#{political},address=#{address},college=#{college},major=#{major}
+            where id=#{id}
+        </update>
+
+    <insert id="addStudent" parameterType="com.chen.ems.core.model.UserInfoVO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into ems_user(number, username, classes, sex, origin, phone, email, political, address, college, major)
+            values (#{number},#{username},#{classes},#{sex},#{origin},#{phone},#{email},#{political},#{address},#{college},#{major})
+    </insert>
+
+    <insert id="addStudentAndRole">
+        insert into ems_user_role(user_id, role_id) values (#{id}, #{roleId})
+    </insert>
+
+    <select id="getTeacherInfo" parameterType="com.chen.ems.core.model.UserInfoVO" resultType="com.chen.ems.core.model.UserInfoVO">
+        select id, number, username, sex, phone, email, political, address, college
+        FROM ems_user
+        <where>
+            id in(SELECT user_id FROM ems_user_role where role_id = 1)
+            <if test="number != null and number != ''">
+                and number = #{number}
+            </if>
+            <if test="username != null and username != ''">
+                and username = #{username}
+            </if>
+            <if test="college != null and college != ''">
+                and college = #{college}
+            </if>
+        </where>
+    </select>
 </mapper>

@@ -1,10 +1,12 @@
 package com.chen.ems.core.controller.user;
 
+import com.chen.ems.common.exception.MyException;
 import com.chen.ems.core.model.UserInfoVO;
 import com.chen.ems.core.service.AdminService;
 import com.chen.ems.utils.ApiResult;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,40 @@ public class AdminController {
         List<UserInfoVO>  userInfos = adminService.getStudentInfo(userInfoVO);
         PageInfo<UserInfoVO> userInfoVOPageInfo = new PageInfo<>(userInfos);
         return ApiResult.ok(200,"获取学生信息成功",userInfoVOPageInfo);
+    }
+
+    @PutMapping("/student")
+    @ApiOperation(value = "管理员更新学生信息", httpMethod = "Put", response = ApiResult.class, notes = "更新成功")
+    public ApiResult updateStudent(@RequestBody UserInfoVO userInfoVO){
+        try{
+            adminService.updateStudent(userInfoVO);
+            return ApiResult.ok(200,"更新成功");
+        }catch (Exception e){
+            throw new MyException(500,"服务错误，请重试");
+        }
+
+    }
+
+    @PostMapping("/student")
+    @ApiOperation(value = "管理员添加学生信息", httpMethod = "POST", response = ApiResult.class, notes = "添加成功")
+    public ApiResult addStudent(@RequestBody UserInfoVO userInfoVO) {
+        try {
+            int id = adminService.addStudent(userInfoVO);
+            return ApiResult.ok(200,id+"添加成功");
+        } catch (Exception e) {
+            throw  new MyException(500,"服务错误，请重试");
+        }
+
+    }
+
+    @PostMapping("/teacher/info" )
+    @ApiOperation(value = "管理员分页获取教师信息", httpMethod = "POST", response = ApiResult.class, notes = "获取成功")
+    public ApiResult getTeacherInfo(@RequestBody UserInfoVO userInfoVO, @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
+        PageHelper.clearPage();
+        PageHelper.startPage(pageNum, pageSize);
+        List<UserInfoVO>  userInfos = adminService.getTeacherInfo(userInfoVO);
+        PageInfo<UserInfoVO> userInfoVOPageInfo = new PageInfo<>(userInfos);
+        return ApiResult.ok(200,"获取教师信息成功",userInfoVOPageInfo);
     }
 
 

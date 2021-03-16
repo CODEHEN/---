@@ -4,6 +4,7 @@ package com.chen.ems.core.mapper;
 import com.chen.ems.core.model.UserInfoVO;
 import com.chen.ems.utils.PageUtils;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -19,4 +20,12 @@ public interface AdminMapper {
      * 管理员获取根据条件学生信息
      */
     List<UserInfoVO> getStudentInfo(UserInfoVO userInfoVO);
+
+    int updateStudent(UserInfoVO userInfoVO);
+
+    int addStudent(UserInfoVO userInfoVO);
+
+    void addStudentAndRole(@Param("id")int id,@Param("roleId") int i);
+
+    List<UserInfoVO> getTeacherInfo(UserInfoVO userInfoVO);
 }

@@ -13,7 +13,7 @@
     <insert id="insertUserRoleByExcel">
         insert into ems_user_role(user_id, role_id) values
             <foreach collection="users" item="user" separator=",">
-                (#{user.id}，#{roleId})
+                (#{user.id},#{roleId})
             </foreach>
     </insert>
 

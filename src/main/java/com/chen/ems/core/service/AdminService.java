@@ -12,4 +12,10 @@ import java.util.List;
  */
 public interface AdminService {
      List<UserInfoVO> getStudentInfo(UserInfoVO userInfoVO);
+
+    int updateStudent(UserInfoVO userInfoVO);
+
+    int addStudent(UserInfoVO userInfoVO);
+
+    List<UserInfoVO> getTeacherInfo(UserInfoVO userInfoVO);
 }

@@ -78,6 +78,11 @@ public class UserInfoVO implements Serializable {
      */
     private String address;
 
+    /**
+     * 政治面貌
+     */
+    private String political;
+
     private Set<String> roles = Sets.newHashSet();
 
     private Set<MenuVO> menus = new LinkedHashSet<>();

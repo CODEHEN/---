@@ -6,6 +6,7 @@ import com.chen.ems.core.service.AdminService;
 import com.chen.ems.utils.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,5 +24,22 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<UserInfoVO> getStudentInfo(UserInfoVO userInfoVO) {
         return adminMapper.getStudentInfo(userInfoVO);
+    }
+
+    @Override
+    public int updateStudent(UserInfoVO userInfoVO) {
+        return adminMapper.updateStudent(userInfoVO);
+    }
+
+    @Override
+    public int addStudent(UserInfoVO userInfoVO) {
+        int id = adminMapper.addStudent(userInfoVO);
+        adminMapper.addStudentAndRole(userInfoVO.getId(),2);
+        return id;
+    }
+
+    @Override
+    public List<UserInfoVO> getTeacherInfo(UserInfoVO userInfoVO) {
+        return adminMapper.getTeacherInfo(userInfoVO);
     }
 }

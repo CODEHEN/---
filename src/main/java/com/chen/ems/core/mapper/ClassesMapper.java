@@ -14,11 +14,10 @@ import java.util.List;
 
 @Mapper
 public interface ClassesMapper {
-
     /**
-     * @Description: 根据学院名字获取该学院的班级
-     * @Param: [name]
-     * @return: java.util.List<com.chen.ems.core.model.ClassesVO>
+     * 根据学院名字获取该学院的班级
+     * @param name 学院名字
+     * @return java.util.List<com.chen.ems.core.model.ClassesVO>
      */
     @Select("select * from ems_classes where major = (select id from ems_major where ems_major.major_name = #{name})")
     List<ClassesVO> getClassByCollege(String name);

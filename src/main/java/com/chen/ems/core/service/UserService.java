@@ -14,7 +14,5 @@ import java.util.List;
 public interface UserService {
     UserInfoVO getCurrentUserInfo(String token);
 
-    int insertUserByExcel(List<User> userList);
-
-    void insertUserRoleByExcel(List<User> list,int roleId);
+    void saveData(List<User> list, int roleId);
 }

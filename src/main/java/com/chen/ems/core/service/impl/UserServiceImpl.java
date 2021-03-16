@@ -17,6 +17,7 @@ import com.chen.ems.utils.ExcelUtils;
 import com.chen.ems.utils.TreeBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -77,12 +78,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int insertUserByExcel(List<User> userList) {
-        return userMapper.insertUserByExcel(userList);
-    }
-
-    @Override
-    public void insertUserRoleByExcel(List<User> list,int roleId) {
+    @Transactional(rollbackFor=Exception.class)
+    public void saveData(List<User> list, int roleId) {
+        int id = userMapper.insertUserByExcel(list);
         userMapper.insertUserRoleByExcel(list,roleId);
     }
 }
