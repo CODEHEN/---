@@ -28,7 +28,10 @@ public interface UserMapper {
     @Update("update ems_user set token = #{token} where number = #{number}")
     void updateUserByNumber(User user);
 
-    int insertUserByExcel(List<User> users);
+    int insertStudentUserByExcel(List<User> users);
 
     void insertUserRoleByExcel(@Param("users") List<User> users,@Param("roleId") int roleId);
+
+    int insertTeacherUserByExcel(List<User> users);
+
 }

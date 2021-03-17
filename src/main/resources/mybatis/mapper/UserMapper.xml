@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chen.ems.core.mapper.UserMapper">
-    <insert id="insertUserByExcel" parameterType="list" keyProperty="id" useGeneratedKeys="true" keyColumn="id">
+    <insert id="insertStudentUserByExcel" parameterType="list" keyProperty="id" useGeneratedKeys="true" keyColumn="id">
         insert into ems_user(number, username, password, salt, classes, sex, origin, phone, email, political, address, college, major) VALUES
             <foreach collection="users" item="user" separator=",">
              (#{user.number},#{user.username},#{user.password},#{user.salt},#{user.classes},#{user.sex},#{user.origin},#{user.phone},#{user.email},#{user.political},#{user.address},#{user.college},#{user.major})
@@ -15,6 +15,13 @@
             <foreach collection="users" item="user" separator=",">
                 (#{user.id},#{roleId})
             </foreach>
+    </insert>
+
+    <insert id="insertTeacherUserByExcel" parameterType="list" keyProperty="id" useGeneratedKeys="true" keyColumn="id">
+        insert into ems_user(number, username, password, salt, sex, phone, email, political, address, college) VALUES
+        <foreach collection="users" item="user" separator=",">
+            (#{user.number},#{user.username},#{user.password},#{user.salt},#{user.sex},#{user.phone},#{user.email},#{user.political},#{user.address},#{user.college})
+        </foreach>
     </insert>
 
 </mapper>

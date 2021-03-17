@@ -1,17 +1,22 @@
 package com.chen.ems.core.controller.user;
 
+import com.alibaba.excel.EasyExcel;
 import com.chen.ems.common.exception.MyException;
 import com.chen.ems.core.model.UserInfoVO;
+import com.chen.ems.core.pojo.User;
 import com.chen.ems.core.service.AdminService;
 import com.chen.ems.utils.ApiResult;
+import com.chen.ems.utils.ExcelUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -72,5 +77,28 @@ public class AdminController {
     }
 
 
+    @PutMapping("/teacher")
+    @ApiOperation(value = "管理员更新教师信息", httpMethod = "Put", response = ApiResult.class, notes = "更新成功")
+    public ApiResult updateTeacher(@RequestBody UserInfoVO userInfoVO){
+        try{
+            adminService.updateTeacher(userInfoVO);
+            return ApiResult.ok(200,"更新成功");
+        }catch (Exception e){
+            throw new MyException(500,"服务错误，请重试");
+        }
+
+    }
+
+    @PostMapping("/teacher")
+    @ApiOperation(value = "管理员添加学生信息", httpMethod = "POST", response = ApiResult.class, notes = "添加成功")
+    public ApiResult addTeacher(@RequestBody UserInfoVO userInfoVO) {
+        try {
+            int id = adminService.addTeacher(userInfoVO);
+            return ApiResult.ok(200,id+"添加成功");
+        } catch (Exception e) {
+            throw  new MyException(500,e.getMessage());
+        }
+
+    }
 
 }

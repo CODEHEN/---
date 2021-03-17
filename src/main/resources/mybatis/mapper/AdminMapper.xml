@@ -44,7 +44,7 @@
         select id, number, username, sex, phone, email, political, address, college
         FROM ems_user
         <where>
-            id in(SELECT user_id FROM ems_user_role where role_id = 1)
+            id in(SELECT user_id FROM ems_user_role where role_id = 3)
             <if test="number != null and number != ''">
                 and number = #{number}
             </if>
@@ -56,4 +56,18 @@
             </if>
         </where>
     </select>
+
+    <update id="updateTeacher" parameterType="com.chen.ems.core.model.UserInfoVO">
+        update ems_user set number=#{number},username=#{username},sex=#{sex},phone=#{phone},email=#{email},political=#{political},address=#{address},college=#{college}
+        where id=#{id}
+    </update>
+
+    <insert id="addTeacher" parameterType="com.chen.ems.core.model.UserInfoVO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into ems_user(number, username, sex, phone, email, political, address, college)
+        values (#{number},#{username},#{sex},#{phone},#{email},#{political},#{address},#{college})
+    </insert>
+
+    <insert id="addTeacherAndRole">
+        insert into ems_user_role(user_id, role_id) values (#{id}, #{roleId})
+    </insert>
 </mapper>

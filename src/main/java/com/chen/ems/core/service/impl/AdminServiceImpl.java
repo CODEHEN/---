@@ -42,4 +42,16 @@ public class AdminServiceImpl implements AdminService {
     public List<UserInfoVO> getTeacherInfo(UserInfoVO userInfoVO) {
         return adminMapper.getTeacherInfo(userInfoVO);
     }
+
+    @Override
+    public int updateTeacher(UserInfoVO userInfoVO) {
+        return adminMapper.updateTeacher(userInfoVO);
+    }
+
+    @Override
+    public int addTeacher(UserInfoVO userInfoVO) {
+        int id = adminMapper.addTeacher(userInfoVO);
+        adminMapper.addTeacherAndRole(userInfoVO.getId(),3);
+        return id;
+    }
 }

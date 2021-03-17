@@ -18,4 +18,8 @@ public interface AdminService {
     int addStudent(UserInfoVO userInfoVO);
 
     List<UserInfoVO> getTeacherInfo(UserInfoVO userInfoVO);
+
+    int updateTeacher(UserInfoVO userInfoVO);
+
+    int addTeacher(UserInfoVO userInfoVO);
 }

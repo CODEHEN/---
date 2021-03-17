@@ -80,7 +80,12 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor=Exception.class)
     public void saveData(List<User> list, int roleId) {
-        int id = userMapper.insertUserByExcel(list);
+        if(roleId == 2) {
+            int id = userMapper.insertStudentUserByExcel(list);
+        }
+        else if (roleId == 3) {
+            int id = userMapper.insertTeacherUserByExcel(list);
+        }
         userMapper.insertUserRoleByExcel(list,roleId);
     }
 }
