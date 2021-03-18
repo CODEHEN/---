@@ -16,4 +16,8 @@ public interface CollegeService {
      * @return: java.util.List<com.chen.ems.core.model.CollegeVO>
      */
     List<CollegeVO> getCollege();
+
+    void addCollege(CollegeVO collegeVO);
+
+    void putCollege(CollegeVO collegeVO);
 }

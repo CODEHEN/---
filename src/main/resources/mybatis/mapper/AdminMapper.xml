@@ -70,4 +70,14 @@
     <insert id="addTeacherAndRole">
         insert into ems_user_role(user_id, role_id) values (#{id}, #{roleId})
     </insert>
+
+    <select id="getCollegeInfo" parameterType="com.chen.ems.core.model.CollegeVO" resultType="com.chen.ems.core.model.CollegeVO">
+        SELECT c.*,(SELECT COUNT(*) FROM ems_user u LEFT JOIN ems_user_role r on u.id=r.user_id where r.role_id=2 and college = c.name) as studentNum,(SELECT COUNT(*) FROM ems_user u LEFT JOIN ems_user_role r on u.id=r.user_id where r.role_id=3 and college = c.name) as teacherNum FROM `ems_college` c
+        <where>
+            <if test="name != null and name != ''">
+                and c.name = #{name}
+            </if>
+        </where>
+    </select>
+
 </mapper>

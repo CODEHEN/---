@@ -1,5 +1,6 @@
 package com.chen.ems.core.service;
 
+import com.chen.ems.core.model.CollegeVO;
 import com.chen.ems.core.model.UserInfoVO;
 import com.chen.ems.utils.PageUtils;
 
@@ -22,4 +23,6 @@ public interface AdminService {
     int updateTeacher(UserInfoVO userInfoVO);
 
     int addTeacher(UserInfoVO userInfoVO);
+
+    List<CollegeVO> getCollegeInfo(CollegeVO collegeVO);
 }

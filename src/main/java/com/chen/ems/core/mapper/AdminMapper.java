@@ -1,6 +1,7 @@
 package com.chen.ems.core.mapper;
 
 
+import com.chen.ems.core.model.CollegeVO;
 import com.chen.ems.core.model.UserInfoVO;
 import com.chen.ems.utils.PageUtils;
 import org.apache.ibatis.annotations.Mapper;
@@ -34,4 +35,6 @@ public interface AdminMapper {
     int addTeacher(UserInfoVO userInfoVO);
 
     void addTeacherAndRole(@Param("id")int id,@Param("roleId") int i);
+
+    List<CollegeVO> getCollegeInfo(CollegeVO collegeVO);
 }

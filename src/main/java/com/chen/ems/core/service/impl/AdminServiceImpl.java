@@ -1,6 +1,7 @@
 package com.chen.ems.core.service.impl;
 
 import com.chen.ems.core.mapper.AdminMapper;
+import com.chen.ems.core.model.CollegeVO;
 import com.chen.ems.core.model.UserInfoVO;
 import com.chen.ems.core.service.AdminService;
 import com.chen.ems.utils.PageUtils;
@@ -53,5 +54,10 @@ public class AdminServiceImpl implements AdminService {
         int id = adminMapper.addTeacher(userInfoVO);
         adminMapper.addTeacherAndRole(userInfoVO.getId(),3);
         return id;
+    }
+
+    @Override
+    public List<CollegeVO> getCollegeInfo(CollegeVO collegeVO) {
+        return adminMapper.getCollegeInfo(collegeVO);
     }
 }

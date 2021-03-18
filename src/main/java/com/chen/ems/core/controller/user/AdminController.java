@@ -2,6 +2,7 @@ package com.chen.ems.core.controller.user;
 
 import com.alibaba.excel.EasyExcel;
 import com.chen.ems.common.exception.MyException;
+import com.chen.ems.core.model.CollegeVO;
 import com.chen.ems.core.model.UserInfoVO;
 import com.chen.ems.core.pojo.User;
 import com.chen.ems.core.service.AdminService;
@@ -99,6 +100,16 @@ public class AdminController {
             throw  new MyException(500,e.getMessage());
         }
 
+    }
+
+    @PostMapping("/college/info" )
+    @ApiOperation(value = "管理员分页获取学院信息", httpMethod = "POST", response = ApiResult.class, notes = "获取成功")
+    public ApiResult getCollegeInfo(@RequestBody CollegeVO collegeVO, @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
+        PageHelper.clearPage();
+        PageHelper.startPage(pageNum, pageSize);
+        List<CollegeVO>  collegeInfos = adminService.getCollegeInfo(collegeVO);
+        PageInfo<CollegeVO> collegeVOPageInfo = new PageInfo<>(collegeInfos);
+        return ApiResult.ok(200,"获取教师信息成功",collegeVOPageInfo);
     }
 
 }

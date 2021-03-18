@@ -23,4 +23,14 @@ public class CollegeServiceImpl implements CollegeService {
     public List<CollegeVO> getCollege() {
         return collegeMapper.getCollege();
     }
+
+    @Override
+    public void addCollege(CollegeVO collegeVO) {
+        collegeMapper.addCollege(collegeVO);
+    }
+
+    @Override
+    public void putCollege(CollegeVO collegeVO) {
+        collegeMapper.putCollege(collegeVO);
+    }
 }
