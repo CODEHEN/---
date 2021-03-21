@@ -15,8 +15,11 @@ public class ClassesVO implements Serializable {
 
     private static final long serialVersionUID = 3493713094919774446L;
 
-    @JsonIgnore
     private Integer id;
 
     private String name;
+
+    private String major;
+
+    private Integer studentNum;
 }

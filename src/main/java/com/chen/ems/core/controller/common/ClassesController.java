@@ -1,14 +1,14 @@
 package com.chen.ems.core.controller.common;
 
 import com.chen.ems.core.model.ClassesVO;
+import com.chen.ems.core.model.UserInfoVO;
 import com.chen.ems.core.service.ClassesService;
 import com.chen.ems.utils.ApiResult;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,9 +31,14 @@ public class ClassesController {
         return ApiResult.ok(200,"获取成功",classesVOS);
     }
 
-    @GetMapping("/**")
-    public ApiResult TEST() {
-        return ApiResult.ok(200,"成功");
+    @PostMapping("/info")
+    @ApiOperation(value = "管理员获取班级信息", httpMethod = "POST", response = ApiResult.class, notes = "获取成功")
+    public ApiResult getClassesInfo(@RequestBody ClassesVO classesVO, @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize){
+        PageHelper.clearPage();
+        PageHelper.startPage(pageNum, pageSize);
+        List<ClassesVO>  classesVOS = classesService.getClassesInfo(classesVO);
+        PageInfo<ClassesVO> classesVOPageInfo = new PageInfo<>(classesVOS);
+        return ApiResult.ok(200,"获取管理员信息成功",classesVOPageInfo);
     }
 
 

@@ -37,4 +37,12 @@ public interface AdminMapper {
     void addTeacherAndRole(@Param("id")int id,@Param("roleId") int i);
 
     List<CollegeVO> getCollegeInfo(CollegeVO collegeVO);
+
+    List<UserInfoVO> getAdminInfo(UserInfoVO userInfoVO);
+
+    void updateAdmin(UserInfoVO userInfoVO);
+
+    int addAdmin(UserInfoVO userInfoVO);
+
+    void addAdminAndRole(@Param("id")int id,@Param("roleId") int i);
 }

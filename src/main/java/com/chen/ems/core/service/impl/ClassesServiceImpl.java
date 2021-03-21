@@ -23,5 +23,10 @@ public class ClassesServiceImpl implements ClassesService {
     public List<ClassesVO> getClassByCollege(String name) {
         return classesMapper.getClassByCollege(name);
     }
+
+    @Override
+    public List<ClassesVO> getClassesInfo(ClassesVO classesVO) {
+        return classesMapper.getClassesInfo(classesVO);
+    }
 }
 

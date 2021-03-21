@@ -87,7 +87,6 @@ public class AdminController {
         }catch (Exception e){
             throw new MyException(500,"服务错误，请重试");
         }
-
     }
 
     @PostMapping("/teacher")
@@ -99,7 +98,6 @@ public class AdminController {
         } catch (Exception e) {
             throw  new MyException(500,e.getMessage());
         }
-
     }
 
     @PostMapping("/college/info" )
@@ -111,5 +109,38 @@ public class AdminController {
         PageInfo<CollegeVO> collegeVOPageInfo = new PageInfo<>(collegeInfos);
         return ApiResult.ok(200,"获取教师信息成功",collegeVOPageInfo);
     }
+
+    @PostMapping("/admin/info")
+    @ApiOperation(value = "管理员获取管理员信息", httpMethod = "POST", response = ApiResult.class, notes = "获取成功")
+    public ApiResult getAdminInfo(@RequestBody UserInfoVO userInfoVO, @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize){
+        PageHelper.clearPage();
+        PageHelper.startPage(pageNum, pageSize);
+        List<UserInfoVO>  userInfos = adminService.getAdminInfo(userInfoVO);
+        PageInfo<UserInfoVO> userInfoVOPageInfo = new PageInfo<>(userInfos);
+        return ApiResult.ok(200,"获取管理员信息成功",userInfoVOPageInfo);
+    }
+
+    @PutMapping("/admin")
+    @ApiOperation(value = "管理员更新管理员信息", httpMethod = "PUT", response = ApiResult.class, notes = "获取成功")
+    public ApiResult getAdminInfo(@RequestBody UserInfoVO userInfoVO){
+        try{
+            adminService.updateAdmin(userInfoVO);
+            return ApiResult.ok(200,"更新成功");
+        }catch (Exception e){
+            throw new MyException(500,"服务错误，请重试");
+        }
+    }
+
+    @PostMapping("/admin")
+    @ApiOperation(value = "管理员添加学生信息", httpMethod = "POST", response = ApiResult.class, notes = "添加成功")
+    public ApiResult addAdmin(@RequestBody UserInfoVO userInfoVO) {
+        try {
+            int id = adminService.addAdmin(userInfoVO);
+            return ApiResult.ok(200,id+"添加成功");
+        } catch (Exception e) {
+            throw  new MyException(500,e.getMessage());
+        }
+    }
+
 
 }

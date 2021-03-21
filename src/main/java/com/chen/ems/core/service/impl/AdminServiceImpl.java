@@ -60,4 +60,21 @@ public class AdminServiceImpl implements AdminService {
     public List<CollegeVO> getCollegeInfo(CollegeVO collegeVO) {
         return adminMapper.getCollegeInfo(collegeVO);
     }
+
+    @Override
+    public List<UserInfoVO> getAdminInfo(UserInfoVO userInfoVO) {
+        return adminMapper.getAdminInfo(userInfoVO);
+    }
+
+    @Override
+    public void updateAdmin(UserInfoVO userInfoVO) {
+        adminMapper.updateAdmin(userInfoVO);
+    }
+
+    @Override
+    public int addAdmin(UserInfoVO userInfoVO) {
+        int id = adminMapper.addAdmin(userInfoVO);
+        adminMapper.addAdminAndRole(userInfoVO.getId(),1);
+        return id;
+    }
 }

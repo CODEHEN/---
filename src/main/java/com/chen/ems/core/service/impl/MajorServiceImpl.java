@@ -23,5 +23,15 @@ public class MajorServiceImpl implements MajorService {
     public List<MajorVO> getMajorByCollegeName(String name) {
         return mapper.getMajorByCollegeName(name);
     }
+
+    @Override
+    public void addMajor(MajorVO majorVO) {
+        mapper.addMajor(majorVO);
+    }
+
+    @Override
+    public void updateMajor(MajorVO majorVO) {
+        mapper.updateMajor(majorVO);
+    }
 }
 

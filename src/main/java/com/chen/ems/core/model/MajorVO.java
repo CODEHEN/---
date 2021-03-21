@@ -18,7 +18,9 @@ public class MajorVO implements Serializable {
     /**
      * 所属学院
      */
-    private String college;
+    private Integer college;
+
+    private Integer studentNum;
 
     /**
      * 专科/本科

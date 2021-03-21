@@ -11,5 +11,7 @@ import java.util.List;
 **/
 public interface ClassesService {
     List<ClassesVO> getClassByCollege(String name);
+
+    List<ClassesVO> getClassesInfo(ClassesVO classesVO);
 }
 

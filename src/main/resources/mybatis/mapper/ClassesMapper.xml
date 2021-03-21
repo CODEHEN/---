@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.ems.core.mapper.ClassesMapper">
+    <select id="getClassesInfo" parameterType="com.chen.ems.core.model.ClassesVO" resultType="com.chen.ems.core.model.ClassesVO">
+        select id, name, (select major_name from ems_major where ems_major.id = ems_classes.major) as major,
+                         (select count(*) from ems_user left join ems_classes ec on ems_user.classes = ec.id where ems_user.classes = ems_classes.id) as studentNum
+        from ems_classes
+        <where>
+            <if test="name !=null and major != ''">
+                and name = #{name}
+            </if>
+        </where>
+    </select>
+</mapper>

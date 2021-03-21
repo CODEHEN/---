@@ -25,4 +25,10 @@ public interface AdminService {
     int addTeacher(UserInfoVO userInfoVO);
 
     List<CollegeVO> getCollegeInfo(CollegeVO collegeVO);
+
+    List<UserInfoVO> getAdminInfo(UserInfoVO userInfoVO);
+
+    void updateAdmin(UserInfoVO userInfoVO);
+
+    int addAdmin(UserInfoVO userInfoVO);
 }

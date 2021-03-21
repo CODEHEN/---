@@ -21,4 +21,6 @@ public interface ClassesMapper {
      */
     @Select("select * from ems_classes where major = (select id from ems_major where ems_major.major_name = #{name})")
     List<ClassesVO> getClassByCollege(String name);
+
+    List<ClassesVO> getClassesInfo(ClassesVO classesVO);
 }

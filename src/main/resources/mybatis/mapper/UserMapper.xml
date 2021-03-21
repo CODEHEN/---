@@ -6,7 +6,7 @@
     <insert id="insertStudentUserByExcel" parameterType="list" keyProperty="id" useGeneratedKeys="true" keyColumn="id">
         insert into ems_user(number, username, password, salt, classes, sex, origin, phone, email, political, address, college, major) VALUES
             <foreach collection="users" item="user" separator=",">
-             (#{user.number},#{user.username},#{user.password},#{user.salt},#{user.classes},#{user.sex},#{user.origin},#{user.phone},#{user.email},#{user.political},#{user.address},#{user.college},#{user.major})
+             (#{user.number},#{user.username},#{user.password},#{user.salt},(select id from ems_classes where ems_classes.name = #{user.classes}),#{user.sex},#{user.origin},#{user.phone},#{user.email},#{user.political},#{user.address},(select id from ems_college where name = #{user.college}),(select id from ems_major where ems_major.major_name = #{user.major}))
             </foreach>
     </insert>
 
@@ -20,7 +20,7 @@
     <insert id="insertTeacherUserByExcel" parameterType="list" keyProperty="id" useGeneratedKeys="true" keyColumn="id">
         insert into ems_user(number, username, password, salt, sex, phone, email, political, address, college) VALUES
         <foreach collection="users" item="user" separator=",">
-            (#{user.number},#{user.username},#{user.password},#{user.salt},#{user.sex},#{user.phone},#{user.email},#{user.political},#{user.address},#{user.college})
+            (#{user.number},#{user.username},#{user.password},#{user.salt},#{user.sex},#{user.phone},#{user.email},#{user.political},#{user.address},(select id from ems_college where name = #{user.college}))
         </foreach>
     </insert>
 

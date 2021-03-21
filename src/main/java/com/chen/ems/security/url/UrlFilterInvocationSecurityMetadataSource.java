@@ -9,6 +9,7 @@ import com.chen.ems.core.pojo.RoleMenu;
 import com.chen.ems.security.bo.MyProperties;
 import com.chen.ems.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
@@ -84,6 +85,9 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
                     });
                 }
                 // 保存该url对应角色权限信息
+                if (roles.size()==0) {
+                    throw new AccessDeniedException("未授权该url！");
+                }
                 return SecurityConfig.createList(roles.toArray(new String[roles.size()]));
             }
         }

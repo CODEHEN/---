@@ -18,5 +18,9 @@ public interface MajorService {
     * @Date: 2021/3/11
     */
     List<MajorVO> getMajorByCollegeName(String name);
+
+    void addMajor(MajorVO majorVO);
+
+    void updateMajor(MajorVO majorVO);
 }
 

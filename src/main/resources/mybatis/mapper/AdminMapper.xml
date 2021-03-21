@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chen.ems.core.mapper.AdminMapper">
         <select id="getStudentInfo" parameterType="com.chen.ems.core.model.UserInfoVO" resultType="com.chen.ems.core.model.UserInfoVO">
-            select id, number, username, classes, sex, origin, phone, email, political, address, college, major
+            select id, number, username, (select name from ems_classes where ems_classes.id = ems_user.classes) as classes, sex, origin, phone, email, political, address, (select name from ems_college where ems_college.id = ems_user.college) as college, (select major_name from ems_major where ems_major.id = ems_user.major) as major
              FROM ems_user
              <where>
                  id in(SELECT user_id FROM ems_user_role where role_id = 2)
@@ -15,25 +15,28 @@
                      and username = #{username}
                  </if>
                  <if test="college != null and college != ''">
-                     and college = #{college}
+                     and college = (select id from ems_college where ems_college.name = #{college})
                  </if>
                  <if test="classes != null and classes != ''">
-                     and classes = #{classes}
+                     and classes = (select id from ems_classes where ems_classes.name = #{classes})
                  </if>
                  <if test="major != null and major != ''">
-                     and major = #{major}
+                     and major = (select id from ems_major where ems_major.major_name = #{major})
                  </if>
              </where>
         </select>
 
         <update id="updateStudent" parameterType="com.chen.ems.core.model.UserInfoVO">
-            update ems_user set number=#{number},username=#{username},classes=#{classes},sex=#{sex},origin=#{origin},phone=#{phone},email=#{email},political=#{political},address=#{address},college=#{college},major=#{major}
+            update ems_user set number=#{number},username=#{username},sex=#{sex},origin=#{origin},phone=#{phone},email=#{email},political=#{political},address=#{address},
+                                college=(select id from ems_college where ems_college.name = #{college}),
+                                major=(select id from ems_major where ems_major.major_name = #{major}),
+                                classes=(select id from ems_classes where ems_classes.name = #{classes})
             where id=#{id}
         </update>
 
     <insert id="addStudent" parameterType="com.chen.ems.core.model.UserInfoVO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into ems_user(number, username, classes, sex, origin, phone, email, political, address, college, major)
-            values (#{number},#{username},#{classes},#{sex},#{origin},#{phone},#{email},#{political},#{address},#{college},#{major})
+            values (#{number},#{username},(select id from ems_classes where ems_classes.name = #{classes}),#{sex},#{origin},#{phone},#{email},#{political},#{address},(select id from ems_college where name = #{college}),(select id from ems_major where ems_major.major_name = #{major}))
     </insert>
 
     <insert id="addStudentAndRole">
@@ -41,7 +44,8 @@
     </insert>
 
     <select id="getTeacherInfo" parameterType="com.chen.ems.core.model.UserInfoVO" resultType="com.chen.ems.core.model.UserInfoVO">
-        select id, number, username, sex, phone, email, political, address, college
+        select id, number, username, sex, phone, email, political, address,
+        (select name from ems_college where ems_college.id = ems_user.college) as college
         FROM ems_user
         <where>
             id in(SELECT user_id FROM ems_user_role where role_id = 3)
@@ -52,19 +56,19 @@
                 and username = #{username}
             </if>
             <if test="college != null and college != ''">
-                and college = #{college}
+                and college = (select id from ems_college where ems_college.name = #{college})
             </if>
         </where>
     </select>
 
     <update id="updateTeacher" parameterType="com.chen.ems.core.model.UserInfoVO">
-        update ems_user set number=#{number},username=#{username},sex=#{sex},phone=#{phone},email=#{email},political=#{political},address=#{address},college=#{college}
+        update ems_user set number=#{number},username=#{username},sex=#{sex},phone=#{phone},email=#{email},political=#{political},address=#{address},college=(select id from ems_college where ems_college.name = #{college})
         where id=#{id}
     </update>
 
     <insert id="addTeacher" parameterType="com.chen.ems.core.model.UserInfoVO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into ems_user(number, username, sex, phone, email, political, address, college)
-        values (#{number},#{username},#{sex},#{phone},#{email},#{political},#{address},#{college})
+        values (#{number},#{username},#{sex},#{phone},#{email},#{political},#{address},(select id from ems_college where name = #{college}))
     </insert>
 
     <insert id="addTeacherAndRole">
@@ -72,12 +76,53 @@
     </insert>
 
     <select id="getCollegeInfo" parameterType="com.chen.ems.core.model.CollegeVO" resultType="com.chen.ems.core.model.CollegeVO">
-        SELECT c.*,(SELECT COUNT(*) FROM ems_user u LEFT JOIN ems_user_role r on u.id=r.user_id where r.role_id=2 and college = c.name) as studentNum,(SELECT COUNT(*) FROM ems_user u LEFT JOIN ems_user_role r on u.id=r.user_id where r.role_id=3 and college = c.name) as teacherNum FROM `ems_college` c
+        SELECT c.*,(SELECT COUNT(*) FROM ems_user u LEFT JOIN ems_user_role r on u.id=r.user_id where r.role_id=2 and college = c.id) as studentNum,(SELECT COUNT(*) FROM ems_user u LEFT JOIN ems_user_role r on u.id=r.user_id where r.role_id=3 and college = c.id) as teacherNum FROM `ems_college` c
         <where>
             <if test="name != null and name != ''">
                 and c.name = #{name}
             </if>
         </where>
     </select>
+    
+<!--    <resultMap id="CollegeAndMajor" type="com.chen.ems.core.model.CollegeVO">-->
+<!--        <id property="id" column="id"/>-->
+<!--        <result property="name" column="name"/>-->
+<!--        <result property="createdTime" column="created_Time"/>-->
+<!--        <result property="studentNum" column="studentNum"/>-->
+<!--        <result property="teacherNum" column="teacherNum"/>-->
+<!--        <association property="majorVOList" column="id" javaType="list" select="getMajorInfo"/>-->
+<!--    </resultMap>-->
+
+    <select id="getMajorInfo" parameterType="String" resultType="com.chen.ems.core.model.MajorVO">
+        select id, major_name, college, type  from ems_major where college= #{id}
+    </select>
+
+    <select id="getAdminInfo" parameterType="com.chen.ems.core.model.UserInfoVO" resultType="com.chen.ems.core.model.UserInfoVO">
+        select id, number, username, sex, phone, email, political, address
+        FROM ems_user
+        <where>
+            id in(SELECT user_id FROM ems_user_role where role_id = 1)
+            <if test="number != null and number != ''">
+                and number = #{number}
+            </if>
+            <if test="username != null and username != ''">
+                and username = #{username}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateAdmin" parameterType="com.chen.ems.core.model.UserInfoVO">
+        update ems_user set number=#{number},username=#{username},sex=#{sex},phone=#{phone},email=#{email},address=#{address}
+        where id=#{id}
+    </update>
+
+    <insert id="addAdmin" parameterType="com.chen.ems.core.model.UserInfoVO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into ems_user(number, username, sex, phone, email, address)
+        values (#{number},#{username},#{sex},#{phone},#{email},#{address})
+    </insert>
+
+    <insert id="addAdminAndRole">
+        insert into ems_user_role(user_id, role_id) values (#{id}, #{roleId})
+    </insert>
 
 </mapper>
