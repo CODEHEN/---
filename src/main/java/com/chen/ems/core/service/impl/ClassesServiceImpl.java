@@ -28,5 +28,15 @@ public class ClassesServiceImpl implements ClassesService {
     public List<ClassesVO> getClassesInfo(ClassesVO classesVO) {
         return classesMapper.getClassesInfo(classesVO);
     }
+
+    @Override
+    public void addClasses(ClassesVO classesVO) {
+        classesMapper.addClasses(classesVO);
+    }
+
+    @Override
+    public void putClasses(ClassesVO classesVO) {
+        classesMapper.putClasses(classesVO);
+    }
 }
 

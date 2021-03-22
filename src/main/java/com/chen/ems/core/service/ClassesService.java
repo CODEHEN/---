@@ -13,5 +13,9 @@ public interface ClassesService {
     List<ClassesVO> getClassByCollege(String name);
 
     List<ClassesVO> getClassesInfo(ClassesVO classesVO);
+
+    void addClasses(ClassesVO classesVO);
+
+    void putClasses(ClassesVO classesVO);
 }
 

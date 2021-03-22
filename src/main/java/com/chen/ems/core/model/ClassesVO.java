@@ -21,5 +21,7 @@ public class ClassesVO implements Serializable {
 
     private String major;
 
+    private String college;
+
     private Integer studentNum;
 }
