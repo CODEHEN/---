@@ -77,4 +77,9 @@ public class AdminServiceImpl implements AdminService {
         adminMapper.addAdminAndRole(userInfoVO.getId(),1);
         return id;
     }
+
+    @Override
+    public List<UserInfoVO> getAdmin() {
+        return adminMapper.getAdmin();
+    }
 }

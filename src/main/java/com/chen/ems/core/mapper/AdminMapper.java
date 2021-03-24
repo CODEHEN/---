@@ -45,4 +45,7 @@ public interface AdminMapper {
     int addAdmin(UserInfoVO userInfoVO);
 
     void addAdminAndRole(@Param("id")int id,@Param("roleId") int i);
+
+    @Select("select u.id,u.username from ems_user u left join ems_user_role eur on u.id = eur.user_id where eur.role_id=1")
+    List<UserInfoVO> getAdmin();
 }

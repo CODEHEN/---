@@ -142,5 +142,11 @@ public class AdminController {
         }
     }
 
+    @GetMapping
+    @ApiOperation(value = "查询管理员信息", httpMethod = "Get", response = ApiResult.class, notes = "查询成功")
+    public ApiResult getAdmin() {
+        List <UserInfoVO> userInfoVOS = adminService.getAdmin();
+        return ApiResult.ok(200,"查询成功",userInfoVOS);
+    }
 
 }

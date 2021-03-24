@@ -3,85 +3,35 @@
 <mapper namespace="com.chen.ems.core.mapper.NoticeMapper">
   <resultMap id="BaseResultMap" type="com.chen.ems.core.model.NoticeVO">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="created_id" jdbcType="INTEGER" property="createdId" />
     <result column="created_name" jdbcType="VARCHAR" property="createdName" />
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="title" jdbcType="VARCHAR" property="title" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, created_name, created_time, content, title
+    id, created_id, created_time, content, title
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from ems_notice
-    where id = #{id,jdbcType=INTEGER}
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from ems_notice
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.chen.ems.core.model.NoticeVO" useGeneratedKeys="true">
-    insert into ems_notice (created_name, created_time, content, 
-      title)
-    values (#{createdName,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{content,jdbcType=VARCHAR}, 
-      #{title,jdbcType=VARCHAR})
+    insert into ems_notice (created_id, content, title)
+    values (#{createdId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR},#{title,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.chen.ems.core.model.NoticeVO" useGeneratedKeys="true">
-    insert into ems_notice
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="createdName != null">
-        created_name,
-      </if>
-      <if test="createdTime != null">
-        created_time,
-      </if>
-      <if test="content != null">
-        content,
-      </if>
-      <if test="title != null">
-        title,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="createdName != null">
-        #{createdName,jdbcType=VARCHAR},
-      </if>
-      <if test="createdTime != null">
-        #{createdTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="content != null">
-        #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="title != null">
-        #{title,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.chen.ems.core.model.NoticeVO">
-    update ems_notice
-    <set>
-      <if test="createdName != null">
-        created_name = #{createdName,jdbcType=VARCHAR},
-      </if>
-      <if test="createdTime != null">
-        created_time = #{createdTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="content != null">
-        content = #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="title != null">
-        title = #{title,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.chen.ems.core.model.NoticeVO">
-    update ems_notice
-    set created_name = #{createdName,jdbcType=VARCHAR},
-      created_time = #{createdTime,jdbcType=TIMESTAMP},
-      content = #{content,jdbcType=VARCHAR},
-      title = #{title,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
+  <select id="getNotice" resultMap="BaseResultMap">
+    select n.id, n.created_id, n.created_time, n.content, n.title,u.username as created_name from ems_notice n left join ems_user u on n.created_id = u.id
+        <where>
+          <if test="createdId !=null">
+            AND created_id = #{createdId}
+          </if>
+          <if test="createdTime != null">
+            AND convert(created_time,DATE) =convert(#{createdTime,jdbcType=TIMESTAMP},DATE)
+          </if>
+        </where>
+  </select>
+
+
 </mapper>

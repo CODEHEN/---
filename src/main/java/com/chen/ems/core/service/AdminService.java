@@ -31,4 +31,6 @@ public interface AdminService {
     void updateAdmin(UserInfoVO userInfoVO);
 
     int addAdmin(UserInfoVO userInfoVO);
+
+    List<UserInfoVO> getAdmin();
 }

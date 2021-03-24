@@ -2,6 +2,8 @@ package com.chen.ems.core.model;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 /**
@@ -16,13 +18,19 @@ public class NoticeVO implements Serializable {
     private Integer id;
 
     /**
-     * 创建人
+     * 创建人ID
+     */
+    private Integer createdId;
+
+    /**
+     * 创建人姓名
      */
     private String createdName;
 
     /**
      * 创建时间
      */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     private Date createdTime;
 
     /**
