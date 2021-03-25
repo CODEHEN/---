@@ -34,4 +34,5 @@ public interface UserMapper {
 
     int insertTeacherUserByExcel(List<User> users);
 
+    List<String> getName(@Param("value") String value,@Param("type") Integer type);
 }

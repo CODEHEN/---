@@ -19,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Author: CHENLIHUI
@@ -60,6 +62,12 @@ public class UserController {
 
 
         return ApiResult.ok(200,"插入成功");
+    }
+
+    @GetMapping("/name")
+    public ApiResult getName(@RequestParam("value") String value, @RequestParam("type") Integer type) {
+        List<String> names = userService.getName(value,type).stream().distinct().collect(Collectors.toList());
+        return ApiResult.ok(200,"获取成功",names);
     }
 
 }

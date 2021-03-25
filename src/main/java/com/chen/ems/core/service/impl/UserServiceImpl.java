@@ -88,4 +88,9 @@ public class UserServiceImpl implements UserService {
         }
         userMapper.insertUserRoleByExcel(list,roleId);
     }
+
+    @Override
+    public List<String> getName(String value, Integer type) {
+        return userMapper.getName(value,type);
+    }
 }

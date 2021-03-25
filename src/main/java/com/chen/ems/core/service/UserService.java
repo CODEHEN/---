@@ -15,4 +15,6 @@ public interface UserService {
     UserInfoVO getCurrentUserInfo(String token);
 
     void saveData(List<User> list, int roleId);
+
+    List<String> getName(String value, Integer type);
 }

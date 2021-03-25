@@ -73,4 +73,16 @@
       `type` = #{type,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectInfo" parameterType="com.chen.ems.core.model.RewardPunishmentVO" resultMap="BaseResultMap">
+    select id,name,content,type from ems_reward_punishment
+    <where>
+      <if test="name !=null and name != ''">
+        and name = #{name}
+      </if>
+      <if test="type !=null">
+        and type = #{type}
+      </if>
+    </where>
+  </select>
 </mapper>
