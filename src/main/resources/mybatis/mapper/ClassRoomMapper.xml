@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.ems.core.mapper.ClassRoomMapper">
+  <resultMap id="BaseResultMap" type="com.chen.ems.core.model.ClassRoomVO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="teach_build_id" jdbcType="INTEGER" property="teachBuildId" />
+    <result column="classroomName" jdbcType="VARCHAR" property="classroomname" />
+    <result column="classroomAttr" jdbcType="VARCHAR" property="classroomattr" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, teach_build_id, classroomName, classroomAttr
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ems_classroom
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ems_classroom
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.chen.ems.core.model.ClassRoomVO" useGeneratedKeys="true">
+    insert into ems_classroom (teach_build_id, classroomName
+      )
+    values ((select id from ems_teach_build where build_name = #{buildName}), #{classroomname,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.chen.ems.core.model.ClassRoomVO" useGeneratedKeys="true">
+    insert into ems_classroom
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="teachBuildId != null">
+        teach_build_id,
+      </if>
+      <if test="classroomname != null">
+        classroomName,
+      </if>
+      <if test="classroomattr != null">
+        classroomAttr,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="teachBuildId != null">
+        #{teachBuildId,jdbcType=INTEGER},
+      </if>
+      <if test="classroomname != null">
+        #{classroomname,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomattr != null">
+        #{classroomattr,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chen.ems.core.model.ClassRoomVO">
+    update ems_classroom
+    <set>
+      <if test="teachBuildId != null">
+        teach_build_id = #{teachBuildId,jdbcType=INTEGER},
+      </if>
+      <if test="classroomname != null">
+        classroomName = #{classroomname,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomattr != null">
+        classroomAttr = #{classroomattr,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chen.ems.core.model.ClassRoomVO">
+    update ems_classroom
+    set teach_build_id = #{teachBuildId,jdbcType=INTEGER},
+      classroomName = #{classroomname,jdbcType=VARCHAR},
+      classroomAttr = #{classroomattr,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="getClassRoomByTeachBuildName" resultMap="BaseResultMap">
+    select * from ems_classroom where teach_build_id = #{build_id}
+  </select>
+</mapper>

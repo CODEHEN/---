@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.ems.core.mapper.CourseMapper">
+  <resultMap id="BaseResultMap" type="com.chen.ems.core.model.CourseVO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="course_id" jdbcType="VARCHAR" property="courseId" />
+    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+    <result column="course_attr" jdbcType="VARCHAR" property="courseAttr" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, course_id, course_name, course_attr
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ems_course_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="getClassesInfo" resultType="com.chen.ems.core.model.CourseVO">
+      select <include refid="Base_Column_List"/>
+    from ems_course_info
+    <where>
+      <if test="courseName != '' and courseName != null">
+        and course_name = #{courseName}
+      </if>
+      <if test="courseAttr != '' and courseAttr != null">
+        and course_attr = #{courseAttr}
+      </if>
+    </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ems_course_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.chen.ems.core.model.CourseVO" useGeneratedKeys="true">
+    insert into ems_course_info (course_id, course_name, course_attr
+      )
+    values (#{courseId,jdbcType=INTEGER}, #{courseName,jdbcType=VARCHAR}, #{courseAttr,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.chen.ems.core.model.CourseVO" useGeneratedKeys="true">
+    insert into ems_course_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="courseName != null">
+        course_name,
+      </if>
+      <if test="courseAttr != null">
+        course_attr,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="courseName != null">
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseAttr != null">
+        #{courseAttr,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chen.ems.core.model.CourseVO">
+    update ems_course_info
+    <set>
+      <if test="courseId != null">
+        course_id = #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="courseName != null">
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseAttr != null">
+        course_attr = #{courseAttr,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chen.ems.core.model.CourseVO">
+    update ems_course_info
+    set course_id = #{courseId,jdbcType=INTEGER},
+      course_name = #{courseName,jdbcType=VARCHAR},
+      course_attr = #{courseAttr,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

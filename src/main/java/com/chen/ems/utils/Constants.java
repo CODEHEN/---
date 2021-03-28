@@ -41,4 +41,29 @@ public class Constants {
      * 登录者角色
      */
     public static final String ROLE_LOGIN = "role_login";
+
+    /**
+     * 专业课
+     */
+    public static final String PROFESSIONAL_COURSE = "01";
+
+    /**
+     * 学科基础课
+     */
+    public static final String BASIC_COURSE = "02";
+
+    /**
+     * 通识教育课
+     */
+    public static final String GENERAL_EDUCATION_COURSE="03";
+
+    /**
+     * 专业选修课
+     */
+    public static final String SPECIALIZED_ELECTIVE_COURSE="04";
+
+    /**
+     * 公共选修课
+     */
+    public static final String PUBLIC_ELECTIVE_COURSE="05";
 }
