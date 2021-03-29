@@ -1,8 +1,10 @@
 package com.chen.ems.core.controller.common;
 
+import com.chen.ems.core.model.ClassTaskVO;
 import com.chen.ems.core.model.CourseVO;
 import com.chen.ems.core.service.CourseService;
 import com.chen.ems.utils.ApiResult;
+import com.chen.ems.utils.CommonUtil;
 import com.chen.ems.utils.Constants;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -24,6 +26,16 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
+    private static void accept(ClassTaskVO item) {
+        String s = CommonUtil.courseSwitch(item.getCourseAttr());
+        item.setCourseAttr(s);
+    }
+
+    private static void accept(CourseVO item) {
+        String s = CommonUtil.courseSwitch(item.getCourseAttr());
+        item.setCourseAttr(s);
+    }
+
     @PostMapping("/info")
     @ApiOperation(value = "管理员获取课程信息", httpMethod = "POST", response = ApiResult.class, notes = "获取成功")
     public ApiResult getCourseInfo(@RequestBody CourseVO courseVO, @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
@@ -31,29 +43,8 @@ public class CourseController {
         PageHelper.startPage(pageNum, pageSize);
         List<CourseVO> courseVOS = courseService.getCourseInfo(courseVO);
         PageInfo<CourseVO> courseVOPageInfo = new PageInfo<>(courseVOS);
-        courseVOPageInfo.getList().forEach(item -> {
-            switch (item.getCourseAttr()) {
-                case Constants.PROFESSIONAL_COURSE:
-                    item.setCourseAttr("专业课");
-                    break;
-                case Constants.BASIC_COURSE:
-                    item.setCourseAttr("学科基础课");
-                    break;
-                case Constants.GENERAL_EDUCATION_COURSE:
-                    item.setCourseAttr("通识教育课");
-                    break;
-                case Constants.SPECIALIZED_ELECTIVE_COURSE:
-                    item.setCourseAttr("专业选修课");
-                    break;
-                case Constants.PUBLIC_ELECTIVE_COURSE:
-                    item.setCourseAttr("公共选修课");
-                    break;
-                default:
-                    item.setCourseAttr("错误课程");
-                    break;
-            }
-        });
-        return ApiResult.ok(200, "获取管理员信息成功", courseVOPageInfo);
+        courseVOPageInfo.getList().forEach(CourseController::accept);
+        return ApiResult.ok(200, "获取课程信息成功", courseVOPageInfo);
     }
 
     @PostMapping
@@ -87,9 +78,21 @@ public class CourseController {
                     courseVO.setCourseAttr("错误课程");
                     break;
             }
+            courseVO.setCourseAttr(CommonUtil.CourseSwitchReverse(courseVO.getCourseAttr()));
         }
         courseService.putCourse(courseVO);
         return ApiResult.ok(200, "删除成功");
+    }
+
+    @PostMapping("/classTask")
+    @ApiOperation(value = "管理员获取开课信息", httpMethod = "POST", response = ApiResult.class, notes = "获取成功")
+    public ApiResult getClassTask(@RequestBody ClassTaskVO classTaskVO, @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
+        PageHelper.clearPage();
+        PageHelper.startPage(pageNum, pageSize);
+        List<ClassTaskVO> classTask =courseService.getClassTask(classTaskVO);
+        PageInfo<ClassTaskVO> classTaskVoPageInfo = new PageInfo<>(classTask);
+        classTaskVoPageInfo.getList().forEach(CourseController::accept);
+        return ApiResult.ok(200, "获取开课信息成功", classTaskVoPageInfo);
     }
 
 

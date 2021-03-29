@@ -1,5 +1,6 @@
 package com.chen.ems.core.service;
 
+import com.chen.ems.core.model.ClassTaskVO;
 import com.chen.ems.core.model.CourseVO;
 
 import java.util.List;
@@ -17,5 +18,7 @@ public interface CourseService {
     void deleteCourse(Integer id);
 
     void putCourse(CourseVO courseVO);
+
+    List<ClassTaskVO> getClassTask(ClassTaskVO classTaskVO);
 }
 

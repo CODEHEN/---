@@ -1,6 +1,7 @@
 package com.chen.ems.core.service.impl;
 
 import com.chen.ems.core.mapper.CourseMapper;
+import com.chen.ems.core.model.ClassTaskVO;
 import com.chen.ems.core.model.CourseVO;
 import com.chen.ems.core.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,11 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void putCourse(CourseVO courseVO) {
         courseMapper.updateByPrimaryKey(courseVO);
+    }
+
+    @Override
+    public List<ClassTaskVO> getClassTask(ClassTaskVO classTaskVO) {
+        return courseMapper.getClassTask(classTaskVO);
     }
 }
 
