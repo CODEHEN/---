@@ -42,4 +42,6 @@ public class ClassTaskVO {
 
   private String teacherName;
 
+  private String[] classArray;
+
 }

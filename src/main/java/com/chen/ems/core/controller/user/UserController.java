@@ -65,8 +65,14 @@ public class UserController {
     }
 
     @GetMapping("/name")
-    public ApiResult getName(@RequestParam("value") String value, @RequestParam("type") Integer type) {
-        List<String> names = userService.getName(value,type).stream().distinct().collect(Collectors.toList());
+    public ApiResult getName(@RequestParam("value") String value) {
+        List<String> names = userService.getName(value).stream().distinct().collect(Collectors.toList());
+        return ApiResult.ok(200,"获取成功",names);
+    }
+
+    @GetMapping("/teaName")
+    public ApiResult getTeaName(@RequestParam("value") String value) {
+        List<String> names = userService.getteaName(value).stream().distinct().collect(Collectors.toList());
         return ApiResult.ok(200,"获取成功",names);
     }
 

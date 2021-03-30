@@ -9,6 +9,7 @@ import com.chen.ems.utils.Constants;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -93,6 +94,18 @@ public class CourseController {
         PageInfo<ClassTaskVO> classTaskVoPageInfo = new PageInfo<>(classTask);
         classTaskVoPageInfo.getList().forEach(CourseController::accept);
         return ApiResult.ok(200, "获取开课信息成功", classTaskVoPageInfo);
+    }
+
+    @GetMapping("/name")
+    public ApiResult getCourseName(@RequestParam("value") String name) {
+        List<String> courseNames = courseService.getCourseName(name);
+        return ApiResult.ok(200,"获取成功",courseNames);
+    }
+
+    @PostMapping("/classTask/add")
+    public ApiResult addClassTask(@RequestBody ClassTaskVO classTaskVO) {
+        courseService.addClassTask(classTaskVO);
+        return ApiResult.ok(200,"添加成功",classTaskVO);
     }
 
 

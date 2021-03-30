@@ -22,7 +22,7 @@
         from ems_course_info
         <where>
             <if test="courseName != '' and courseName != null">
-                and course_name = #{courseName}
+                course_name = #{courseName}
             </if>
             <if test="courseAttr != '' and courseAttr != null">
                 and course_attr = #{courseAttr}
@@ -34,21 +34,9 @@
         semester,
         (select major_name from ems_major where ems_major.id = majorNo) as majorName,
         (select name from ems_college where ems_college.id = collegeNo) as collegeName,
-        (select name from ems_classes where ems_classes.id = classNo
-        <if test="className !=null and className != ''">
-            and name = #{className}
-        </if>
-        ) as className,
-        (select course_name from ems_course_info where ems_course_info.course_id = courseNo
-        <if test="courseName !=null and courseName != ''">
-            and course_name = #{courseName}
-        </if>
-        ) as courseName,
-        (select username from ems_user where number = teacherNo
-        <if test="teacherName !=null and teacherName != ''">
-            and username = #{teacherName}
-        </if>
-        ) as teacherName,
+        (select name from ems_classes where ems_classes.id = classNo) as className,
+        (select course_name from ems_course_info where ems_course_info.course_id = courseNo) as courseName,
+        (select username from ems_user where number = teacherNo) as teacherName,
         courseAttr,
         studentNumber,
         weeksSum,
@@ -57,6 +45,15 @@
         classTime
         from ems_class_task
         <where>
+            <if test="teacherName !=null and teacherName != ''">
+                and teacherNo = (select number from ems_user where username = #{teacherName})
+            </if>
+            <if test="className !=null and className != ''">
+                and classNo = (select id from ems_classes where name = #{className})
+            </if>
+            <if test="courseName !=null and courseName != ''">
+                and courseNo = (select course_id from ems_course_info where course_name = #{courseName})
+            </if>
             <if test="courseAttr !=null and courseAttr != ''">
                 and courseAttr = #{courseAttr}
             </if>
@@ -124,4 +121,22 @@
             course_attr = #{courseAttr,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
+
+    <insert id="addClassTask" parameterType="com.chen.ems.core.model.ClassTaskVO">
+        insert into ems_class_task(semester, collegeNo, classNo, courseNo, majorNo, teacherNo, courseAttr, weeksNumber) VALUES
+        <foreach collection="classArray" item="className" separator=",">
+            (
+            #{semester},
+            (select id from ems_college where name = #{collegeName}),
+            (select id from ems_classes where name = #{className}),
+            (select course_id from ems_course_info where course_name = #{courseName}),
+            (select id from ems_major where major_name = #{majorName}),
+            (select number from ems_user where username = #{teacherName}),
+            (select course_attr from ems_course_info where course_name = #{courseName}),
+            #{weeksNumber}
+            )
+
+        </foreach>
+
+    </insert>
 </mapper>

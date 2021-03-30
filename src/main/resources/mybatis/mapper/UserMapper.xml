@@ -28,4 +28,8 @@
         select username from ems_user where username like CONCAT('%',#{value},'%')
     </select>
 
+    <select id="getTeacherName" resultType="string">
+        select username from ems_user left join ems_user_role eur on ems_user.id = eur.user_id and eur.role_id = 3 where username like CONCAT('%',#{value},'%')
+    </select>
+
 </mapper>

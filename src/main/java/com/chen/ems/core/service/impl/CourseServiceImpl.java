@@ -44,5 +44,15 @@ public class CourseServiceImpl implements CourseService {
     public List<ClassTaskVO> getClassTask(ClassTaskVO classTaskVO) {
         return courseMapper.getClassTask(classTaskVO);
     }
+
+    @Override
+    public List<String> getCourseName(String name) {
+        return courseMapper.getCourseName(name);
+    }
+
+    @Override
+    public void addClassTask(ClassTaskVO classTaskVO) {
+        courseMapper.addClassTask(classTaskVO);
+    }
 }
 

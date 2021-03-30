@@ -90,7 +90,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<String> getName(String value, Integer type) {
-        return userMapper.getName(value,type);
+    public List<String> getName(String value) {
+        return userMapper.getName(value);
+    }
+
+    @Override
+    public List<String> getteaName(String value) {
+        return userMapper.getTeacherName(value);
     }
 }

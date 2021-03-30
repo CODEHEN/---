@@ -4,6 +4,7 @@ import com.chen.ems.core.model.UserInfoVO;
 import com.chen.ems.core.pojo.User;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -16,5 +17,7 @@ public interface UserService {
 
     void saveData(List<User> list, int roleId);
 
-    List<String> getName(String value, Integer type);
+    List<String> getName(String value);
+
+    List<String> getteaName(String value);
 }

@@ -20,5 +20,9 @@ public interface CourseService {
     void putCourse(CourseVO courseVO);
 
     List<ClassTaskVO> getClassTask(ClassTaskVO classTaskVO);
+
+    List<String> getCourseName(String name);
+
+    void addClassTask(ClassTaskVO classTaskVO);
 }
 
