@@ -29,4 +29,8 @@ public interface CourseMapper {
     List<String> getCourseName(String name);
 
     void addClassTask(ClassTaskVO classTaskVO);
+
+    List<ClassTaskVO> selectBySemester(ClassTaskVO classTaskVO);
+
+    List<String> selectByColumnName(String classNo);
 }

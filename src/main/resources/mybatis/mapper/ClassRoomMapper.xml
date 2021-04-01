@@ -77,4 +77,9 @@
   <select id="getClassRoomByTeachBuildName" resultMap="BaseResultMap">
     select * from ems_classroom where teach_build_id = #{build_id}
   </select>
+
+  <select id="selectByTeachBuildNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select id, teach_build_id, classroomName,classroomAttr
+    from ems_classroom where teach_build_id = #{teachBuildNo,jdbcType=VARCHAR}
+  </select>
 </mapper>

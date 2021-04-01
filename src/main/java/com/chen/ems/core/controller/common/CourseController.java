@@ -108,6 +108,20 @@ public class CourseController {
         return ApiResult.ok(200,"添加成功",classTaskVO);
     }
 
+    @PostMapping("/classScheduling")
+    public ApiResult classScheduling(@RequestBody ClassTaskVO classTaskVO){
+        if(courseService.classScheduling(classTaskVO)){
+            return ApiResult.ok(200,"排课成功");
+        }
+        return ApiResult.fail("排课失败");
+    }
+
+    @GetMapping("/semester")
+    public ApiResult Semester() {
+        List<String> semesters = courseService.selectSemester("semester");
+        return ApiResult.ok(200,"获取成功",semesters);
+    }
+
 
 }
 

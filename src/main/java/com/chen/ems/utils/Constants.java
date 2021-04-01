@@ -66,4 +66,39 @@ public class Constants {
      * 公共选修课
      */
     public static final String PUBLIC_ELECTIVE_COURSE="05";
+
+    /**
+     * 实验课
+     */
+    public static final String EXPERIMENTAL_COURSE ="06";
+
+    /**
+     * 默认课程编码
+     */
+    public static final String DEFAULT_CLASS_TIME = "00";
+
+    /**
+     * 班级编号
+     */
+    public static final String CLASS_NO = "classNo";
+
+    /**
+     * 是否固定
+     */
+    public static final String IS_FIX = "isFix";
+
+    public static final String COLLEGE_NO = "collegeNo";//学院编号
+
+    public static final String TEACHER_NO = "teacherNo";//教师编号
+
+    public static final String COURSE_NO = "courseNo";//课程编号
+
+    public static final String COURSE_ATTR = "courseAttr";//课程属性
+
+    public static final String CLASS_TIME = "classTime";//上课时间
+
+    public static final String CLASSROOM_NO = "classroomNo";
+
+    public static final int GENERATION = 100;//遗传代数
+
 }

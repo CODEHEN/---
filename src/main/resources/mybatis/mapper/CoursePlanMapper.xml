@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.ems.core.mapper.CoursePlanMapper">
+  <resultMap id="BaseResultMap" type="com.chen.ems.core.model.CoursePlanVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="collegeNo" jdbcType="VARCHAR" property="collegeno" />
+    <result column="classNo" jdbcType="VARCHAR" property="classno" />
+    <result column="courseNo" jdbcType="VARCHAR" property="courseno" />
+    <result column="teacherNo" jdbcType="VARCHAR" property="teacherno" />
+    <result column="classroomNo" jdbcType="VARCHAR" property="classroomno" />
+    <result column="classTime" jdbcType="VARCHAR" property="classtime" />
+    <result column="weeksSum" jdbcType="INTEGER" property="weekssum" />
+    <result column="semester" jdbcType="VARCHAR" property="semester" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, collegeNo, classNo, courseNo, teacherNo, classroomNo, classTime, weeksSum, semester
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ems_course_plan
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from ems_course_plan
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.chen.ems.core.model.CoursePlanVO" useGeneratedKeys="true">
+    insert into ems_course_plan (collegeNo, classNo, courseNo, 
+      teacherNo, classroomNo, classTime, semester)
+    values (#{collegeno,jdbcType=VARCHAR}, #{classno,jdbcType=VARCHAR}, #{courseno,jdbcType=VARCHAR}, 
+      #{teacherno,jdbcType=VARCHAR}, #{classroomno,jdbcType=VARCHAR}, #{classtime,jdbcType=VARCHAR},
+            #{semester,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.chen.ems.core.model.CoursePlanVO" useGeneratedKeys="true">
+    insert into ems_course_plan
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="collegeno != null">
+        collegeNo,
+      </if>
+      <if test="classno != null">
+        classNo,
+      </if>
+      <if test="courseno != null">
+        courseNo,
+      </if>
+      <if test="teacherno != null">
+        teacherNo,
+      </if>
+      <if test="classroomno != null">
+        classroomNo,
+      </if>
+      <if test="classtime != null">
+        classTime,
+      </if>
+      <if test="weekssum != null">
+        weeksSum,
+      </if>
+      <if test="semester != null">
+        semester,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="collegeno != null">
+        #{collegeno,jdbcType=VARCHAR},
+      </if>
+      <if test="classno != null">
+        #{classno,jdbcType=VARCHAR},
+      </if>
+      <if test="courseno != null">
+        #{courseno,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherno != null">
+        #{teacherno,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomno != null">
+        #{classroomno,jdbcType=VARCHAR},
+      </if>
+      <if test="classtime != null">
+        #{classtime,jdbcType=VARCHAR},
+      </if>
+      <if test="weekssum != null">
+        #{weekssum,jdbcType=INTEGER},
+      </if>
+      <if test="semester != null">
+        #{semester,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chen.ems.core.model.CoursePlanVO">
+    update ems_course_plan
+    <set>
+      <if test="collegeno != null">
+        collegeNo = #{collegeno,jdbcType=VARCHAR},
+      </if>
+      <if test="classno != null">
+        classNo = #{classno,jdbcType=VARCHAR},
+      </if>
+      <if test="courseno != null">
+        courseNo = #{courseno,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherno != null">
+        teacherNo = #{teacherno,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomno != null">
+        classroomNo = #{classroomno,jdbcType=VARCHAR},
+      </if>
+      <if test="classtime != null">
+        classTime = #{classtime,jdbcType=VARCHAR},
+      </if>
+      <if test="weekssum != null">
+        weeksSum = #{weekssum,jdbcType=INTEGER},
+      </if>
+      <if test="semester != null">
+        semester = #{semester,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chen.ems.core.model.CoursePlanVO">
+    update ems_course_plan
+    set collegeNo = #{collegeno,jdbcType=VARCHAR},
+      classNo = #{classno,jdbcType=VARCHAR},
+      courseNo = #{courseno,jdbcType=VARCHAR},
+      teacherNo = #{teacherno,jdbcType=VARCHAR},
+      classroomNo = #{classroomno,jdbcType=VARCHAR},
+      classTime = #{classtime,jdbcType=VARCHAR},
+      weeksSum = #{weekssum,jdbcType=INTEGER},
+      semester = #{semester,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateCoursePlan" parameterType="com.chen.ems.core.model.ClassTaskVO">
+    update ems_course_plan
+    set semester = #{semester,jdbcType=VARCHAR}
+    where collegeNo = #{collegeNo,jdbcType=VARCHAR}
+      and classNo = #{classNo,jdbcType=VARCHAR}
+      and courseNo = #{courseNo,jdbcType=VARCHAR}
+      and teacherNo = #{teacherNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

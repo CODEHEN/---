@@ -135,8 +135,15 @@
             (select course_attr from ems_course_info where course_name = #{courseName}),
             #{weeksNumber}
             )
-
         </foreach>
-
     </insert>
+
+    <select id="selectBySemester" resultType="com.chen.ems.core.model.ClassTaskVO" parameterType="com.chen.ems.core.model.ClassTaskVO">
+        select * from ems_class_task where semester = #{semester,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByColumnName" resultType="java.lang.String" parameterType="java.lang.String">
+        select distinct  ${classNo} from ems_class_task
+    </select>
+
 </mapper>

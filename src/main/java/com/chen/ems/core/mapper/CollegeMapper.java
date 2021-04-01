@@ -23,4 +23,6 @@ public interface CollegeMapper {
 
 
     void putCollege(CollegeVO collegeVO);
+
+    String selectBuildNo(String collegeNo);
 }

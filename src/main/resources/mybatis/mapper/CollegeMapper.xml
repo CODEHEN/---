@@ -7,4 +7,8 @@
         update ems_college set name = #{name},created_time = #{createdTime}
         where id=#{id}
     </update>
+
+    <select id="selectBuildNo" resultType="java.lang.String" parameterType="java.lang.String">
+        select teachBuildNo from ems_build_college where collegeNo = #{collegeNo,jdbcType=VARCHAR}
+    </select>
 </mapper>

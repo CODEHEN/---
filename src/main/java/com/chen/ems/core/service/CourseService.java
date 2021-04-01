@@ -24,5 +24,9 @@ public interface CourseService {
     List<String> getCourseName(String name);
 
     void addClassTask(ClassTaskVO classTaskVO);
+
+    boolean classScheduling(ClassTaskVO classTaskVO);
+
+    List<String> selectSemester(String semester);
 }
 

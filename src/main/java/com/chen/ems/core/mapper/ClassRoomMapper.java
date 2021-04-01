@@ -20,4 +20,6 @@ public interface ClassRoomMapper {
     int updateByPrimaryKey(ClassRoomVO record);
 
     List<ClassRoomVO> getClassRoomByTeachBuildName(Integer build_id);
+
+    List<ClassRoomVO> selectByTeachBuildNo(String teachBuildNo);
 }
