@@ -145,5 +145,9 @@
     <select id="selectByColumnName" resultType="java.lang.String" parameterType="java.lang.String">
         select distinct  ${classNo} from ems_class_task
     </select>
+    <select id="studentSchedule" resultType="com.chen.ems.core.model.ClassTaskVO"></select>
+    <select id="isNullCourseId" resultType="java.lang.Boolean">
+        select isnull((select course_id from ems_course_info where course_id = #{courseId}))
+    </select>
 
 </mapper>

@@ -82,4 +82,7 @@
     select id, teach_build_id, classroomName,classroomAttr
     from ems_classroom where teach_build_id = #{teachBuildNo,jdbcType=VARCHAR}
   </select>
+    <select id="getId" resultType="java.lang.Integer">
+      select id from ems_classroom where classroomName = #{classroomId}
+    </select>
 </mapper>

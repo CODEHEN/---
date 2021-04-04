@@ -22,4 +22,6 @@ public interface ClassRoomMapper {
     List<ClassRoomVO> getClassRoomByTeachBuildName(Integer build_id);
 
     List<ClassRoomVO> selectByTeachBuildNo(String teachBuildNo);
+
+    Integer getId(String classroomId);
 }

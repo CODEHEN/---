@@ -2,6 +2,7 @@ package com.chen.ems.core.mapper;
 
 import com.chen.ems.core.model.CourseVO;
 import com.chen.ems.core.model.ClassTaskVO;
+import com.chen.ems.core.model.ElectiveCourseVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -33,4 +34,8 @@ public interface CourseMapper {
     List<ClassTaskVO> selectBySemester(ClassTaskVO classTaskVO);
 
     List<String> selectByColumnName(String classNo);
+
+    List<ClassTaskVO> studentSchedule(String number);
+
+    boolean isNullCourseId(String courseId);
 }

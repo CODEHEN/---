@@ -32,5 +32,10 @@ public class ClassRoomServiceImpl implements ClassRoomService {
     public void updateClassRoom(ClassRoomVO classRoomVO) {
         classRoomMapper.updateByPrimaryKeySelective(classRoomVO);
     }
+
+    @Override
+    public Integer getId(String classroomId) {
+        return classRoomMapper.getId(classroomId);
+    }
 }
 

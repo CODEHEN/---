@@ -27,6 +27,7 @@ ems:
     loginAfterTime: 10
     ignoreUrls:
       - /druid/**
+      - /schedule/**
       - /wx/login
       - /login
       - /user/getCurrentUserInfo

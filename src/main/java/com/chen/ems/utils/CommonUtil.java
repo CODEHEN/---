@@ -23,6 +23,8 @@ public class CommonUtil {
                 return "专业选修课";
             case Constants.PUBLIC_ELECTIVE_COURSE:
                 return "公共选修课";
+            case Constants.EXPERIMENTAL_COURSE:
+                return "实验课";
             default:
                 return "错误课程";
         }

@@ -1,13 +1,11 @@
 package com.chen.ems.core.service.impl;
 
 import com.chen.ems.core.mapper.*;
-import com.chen.ems.core.model.ClassRoomVO;
-import com.chen.ems.core.model.ClassTaskVO;
-import com.chen.ems.core.model.CoursePlanVO;
-import com.chen.ems.core.model.CourseVO;
+import com.chen.ems.core.model.*;
 import com.chen.ems.core.service.CourseService;
 import com.chen.ems.utils.ClassSchedulUtil;
 import com.chen.ems.utils.Constants;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,14 +38,22 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     private TeacherCourseMapper teacherCourseMapper;
 
+    @Autowired
+    private ElectiveCourseMapper electiveCourseMapper;
+
     @Override
     public List<CourseVO> getCourseInfo(CourseVO courseVO) {
         return courseMapper.getClassesInfo(courseVO);
     }
 
     @Override
-    public void addCourse(CourseVO courseVO) {
-        courseMapper.insert(courseVO);
+    public boolean addCourse(CourseVO courseVO) {
+        boolean flag = courseMapper.isNullCourseId(courseVO.getCourseId());
+        // true 不存在
+        if (flag) {
+            courseMapper.insert(courseVO);
+        }
+        return flag;
     }
 
     @Override
@@ -109,6 +115,39 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<String> selectSemester(String semester) {
         return courseMapper.selectByColumnName(semester);
+    }
+
+    @Override
+    public List<ClassTaskVO> studentSchedule(String number) {
+        return courseMapper.studentSchedule(number);
+    }
+
+    @Override
+    public List<ElectiveCourseVO> getElectiveCourseInfo(ElectiveCourseVO courseVO) {
+        List<ElectiveCourseVO> courseVOS =  electiveCourseMapper.getElectiveCourseInfo(courseVO);
+        for (ElectiveCourseVO course : courseVOS) {
+            if (StringUtils.isNotBlank(course.getClassTime())) {
+                int classTime = Integer.parseInt(course.getClassTime());
+                int weekTime = classTime/5+1;
+                int dayTime = classTime%5;
+                if (dayTime == 0) {
+                    weekTime = classTime/5;
+                    dayTime = 5;
+                }
+                course.setClassTime("周"+weekTime+"第"+dayTime+"节");
+            }
+        }
+        return courseVOS;
+    }
+
+    @Override
+    public void addElectiveCourse(ElectiveCourseVO courseVO) {
+        electiveCourseMapper.insert(courseVO);
+    }
+
+    @Override
+    public void putElectiveCourse(ElectiveCourseVO courseVO) {
+        electiveCourseMapper.updateByPrimaryKeySelective(courseVO);
     }
 
     private List<CoursePlanVO> decoding(List<String> resultList) {

@@ -34,6 +34,13 @@ public class Teach_BuildController {
         return ApiResult.ok(200,"获取教学楼信息成功",teachBuildVOPageInfo);
     }
 
+    @GetMapping("/info")
+    public ApiResult RaPInfoo() {
+        TeachBuildVO teachBuildVO = new TeachBuildVO();
+        List<TeachBuildVO> teachBuildVOS = teachBuildService.geInfo(teachBuildVO);
+        return ApiResult.ok(200,"获取教学楼信息成功",teachBuildVOS);
+    }
+
     @PostMapping
     @ApiOperation(value = "添加教学楼信息", httpMethod = "Post", response = ApiResult.class, notes = "添加成功")
     public ApiResult addTeachBuild(@RequestBody TeachBuildVO teachBuildVO) {

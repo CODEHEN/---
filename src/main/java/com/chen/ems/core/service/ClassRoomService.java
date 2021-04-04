@@ -15,5 +15,7 @@ public interface ClassRoomService {
     void addClassRoom(ClassRoomVO classRoomVO);
 
     void updateClassRoom(ClassRoomVO classRoomVO);
+
+    Integer getId(String classroomId);
 }
 

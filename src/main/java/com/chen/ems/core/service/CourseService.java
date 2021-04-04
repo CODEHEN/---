@@ -2,6 +2,7 @@ package com.chen.ems.core.service;
 
 import com.chen.ems.core.model.ClassTaskVO;
 import com.chen.ems.core.model.CourseVO;
+import com.chen.ems.core.model.ElectiveCourseVO;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
 public interface CourseService {
     List<CourseVO> getCourseInfo(CourseVO courseVO);
 
-    void addCourse(CourseVO courseVO);
+    boolean addCourse(CourseVO courseVO);
 
     void deleteCourse(Integer id);
 
@@ -28,5 +29,13 @@ public interface CourseService {
     boolean classScheduling(ClassTaskVO classTaskVO);
 
     List<String> selectSemester(String semester);
+
+    List<ClassTaskVO> studentSchedule(String number);
+
+    List<ElectiveCourseVO> getElectiveCourseInfo(ElectiveCourseVO courseVO);
+
+    void addElectiveCourse(ElectiveCourseVO courseVO);
+
+    void putElectiveCourse(ElectiveCourseVO courseVO);
 }
 
