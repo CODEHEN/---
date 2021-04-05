@@ -297,7 +297,7 @@ public class CourseServiceImpl implements CourseService {
         List<String> unFixedTimeGeneList = new ArrayList<>();//不固定时间的编码基因组
         for (ClassTaskVO classTask : classTaskList) {
                 //计算一周的上课次数，一次对应一个基因，2次对应两个基因。依此类推
-                int size = classTask.getWeeksNumber() / 2;
+                int size = classTask.getWeeksNumber();
                 for (int i = 0; i < size; i++) {
                     String gene = classTask.getIsFix()+"," + classTask.getCollegeNo()+"," + classTask.getClassNo()+"," + classTask.getTeacherNo()+"," + classTask.getCourseNo()+"," + classTask.getCourseAttr();
                     unFixedTimeGeneList.add(gene);

@@ -29,7 +29,7 @@ public class ScheduleController {
     @PostMapping("/student")
     @ApiOperation(value = "学生课表", httpMethod = "POST", response = ApiResult.class, notes = "查询成功")
     public ApiResult studentSchedule(@RequestBody ScheduleVO scheduleVO) {
-        List<ScheduleVO> scheduleVOS = scheduleService.studentSchedule(scheduleVO.getStudentNumber());
+        List<ScheduleVO> scheduleVOS = scheduleService.studentSchedule(scheduleVO);
         String [][] scheduleTable= new String[7][5];
         for (ScheduleVO schedule : scheduleVOS) {
             int classTime = Integer.parseInt(schedule.getClassTime());
@@ -40,7 +40,19 @@ public class ScheduleController {
         return ApiResult.ok(200,"获取成功",scheduleTable);
     }
 
-
+    @PostMapping("/class")
+    @ApiOperation(value = "班级课表", httpMethod = "POST", response = ApiResult.class, notes = "查询成功")
+    public ApiResult classSchedule(@RequestBody ScheduleVO scheduleVO) {
+        List<ScheduleVO> scheduleVOS = scheduleService.classSchedule(scheduleVO);
+        String [][] scheduleTable= new String[7][5];
+        for (ScheduleVO schedule : scheduleVOS) {
+            int classTime = Integer.parseInt(schedule.getClassTime());
+            String sheduleInfo = schedule.getCourseName() + "\n" + schedule.getTeacherName() + "\n" +schedule.getBuildName()+ "\n"+schedule.getRoomName();
+            int day = classTime%5 ==0 ?4:classTime%5-1;
+            scheduleTable[classTime/5][day] = sheduleInfo;
+        }
+        return ApiResult.ok(200,"获取成功",scheduleTable);
+    }
 
 }
 

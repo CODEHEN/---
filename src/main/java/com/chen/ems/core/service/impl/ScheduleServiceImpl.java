@@ -20,8 +20,13 @@ public class ScheduleServiceImpl implements ScheduleService {
     private ScheduleMapper scheduleMapper;
 
     @Override
-    public List<ScheduleVO> studentSchedule(String studentNumber) {
-        return scheduleMapper.studentSchedule(studentNumber);
+    public List<ScheduleVO> studentSchedule(ScheduleVO scheduleVO) {
+        return scheduleMapper.studentSchedule(scheduleVO);
+    }
+
+    @Override
+    public List<ScheduleVO> classSchedule(ScheduleVO scheduleVO) {
+        return scheduleMapper.classSchedule(scheduleVO);
     }
 }
 

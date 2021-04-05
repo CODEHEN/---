@@ -6,11 +6,28 @@
 
     <select id="studentSchedule" resultType="com.chen.ems.core.model.ScheduleVO">
         SELECT
-               (select course_name from ems_course_info where course_id = cp.courseNo) as courseName,
-               (select username from ems_user where number = cp.teacherNo) as teacherName,
-               (select classroomName from ems_classroom where id = cp.classroomNo) as roomName,
-               (select build_name from ems_teach_build b left join ems_classroom ec on b.id = ec.teach_build_id where ec.id = cp.classroomNo) as buildName,
-               classTime FROM ems_course_plan cp
+        (select course_name from ems_course_info where course_id = cp.courseNo) as courseName,
+        (select username from ems_user where number = cp.teacherNo) as teacherName,
+        (select classroomName from ems_classroom where id = cp.classroomNo) as roomName,
+        (select build_name from ems_teach_build b left join ems_classroom ec on b.id = ec.teach_build_id where ec.id =
+        cp.classroomNo) as buildName,
+        classTime FROM ems_course_plan cp
         WHERE classNo = (SELECT classes FROM ems_user WHERE number = #{studentNumber})
+        <if test="semester !=null and semester !=''">
+            and semester = #{semester}
+        </if>
+    </select>
+    <select id="classSchedule" resultType="com.chen.ems.core.model.ScheduleVO">
+        SELECT
+        (select course_name from ems_course_info where course_id = cp.courseNo) as courseName,
+        (select username from ems_user where number = cp.teacherNo) as teacherName,
+        (select classroomName from ems_classroom where id = cp.classroomNo) as roomName,
+        (select build_name from ems_teach_build b left join ems_classroom ec on b.id = ec.teach_build_id where ec.id =
+        cp.classroomNo) as buildName,
+        classTime FROM ems_course_plan cp
+        WHERE classNo = #{classNo}
+        <if test="semester !=null and semester !=''">
+            and semester = #{semester}
+        </if>
     </select>
 </mapper>

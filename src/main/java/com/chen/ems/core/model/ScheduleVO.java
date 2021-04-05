@@ -17,6 +17,8 @@ public class ScheduleVO implements Serializable {
 
     private String courseName;
 
+    private String classNo;
+
     private String teacherName;
 
     private String buildName;

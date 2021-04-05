@@ -7,5 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface ScheduleMapper {
-    List<ScheduleVO> studentSchedule(String studentNumber);
+    List<ScheduleVO> studentSchedule(ScheduleVO scheduleVO);
+
+    List<ScheduleVO> classSchedule(ScheduleVO scheduleVO);
 }

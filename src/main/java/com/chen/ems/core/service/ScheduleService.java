@@ -10,6 +10,8 @@ import java.util.List;
 * @Date: 创建于16:54 2021-04-04
 **/
 public interface ScheduleService {
-    List<ScheduleVO> studentSchedule(String studentNumber);
+    List<ScheduleVO> studentSchedule(ScheduleVO scheduleVO);
+
+    List<ScheduleVO> classSchedule(ScheduleVO scheduleVO);
 }
 
