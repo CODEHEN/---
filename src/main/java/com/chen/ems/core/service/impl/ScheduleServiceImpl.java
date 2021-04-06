@@ -28,5 +28,15 @@ public class ScheduleServiceImpl implements ScheduleService {
     public List<ScheduleVO> classSchedule(ScheduleVO scheduleVO) {
         return scheduleMapper.classSchedule(scheduleVO);
     }
+
+    @Override
+    public List<ScheduleVO> teacherSchedule(ScheduleVO scheduleVO) {
+        return scheduleMapper.teacherSchedule(scheduleVO);
+    }
+
+    @Override
+    public List<ScheduleVO> classroomSchedule(ScheduleVO scheduleVO) {
+        return scheduleMapper.classroomSchedule(scheduleVO);
+    }
 }
 

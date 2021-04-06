@@ -30,4 +30,27 @@
             and semester = #{semester}
         </if>
     </select>
+    <select id="teacherSchedule" resultType="com.chen.ems.core.model.ScheduleVO">
+        SELECT
+        (select course_name from ems_course_info where course_id = cp.courseNo) as courseName,
+        (select name from ems_classes where id = cp.classNo) as className,
+        (select classroomName from ems_classroom where id = cp.classroomNo) as roomName,
+        (select build_name from ems_teach_build b left join ems_classroom ec on b.id = ec.teach_build_id where ec.id =
+        cp.classroomNo) as buildName,
+        classTime FROM ems_course_plan cp
+        WHERE teacherNo = (select number from ems_user where username = #{teacherName})
+        <if test="semester !=null and semester !=''">
+            and semester = #{semester}
+        </if>
+    </select>
+    <select id="classroomSchedule" resultType="com.chen.ems.core.model.ScheduleVO">
+        select (select course_name from ems_course_info where course_id = cp.courseNo) as courseName,
+               (select username from ems_user where number = cp.teacherNo)             as teacherName,
+               (select name from ems_classes where id = cp.classNo)                    as className,
+        classTime FROM ems_course_plan cp
+        where classroomNo = #{roomId}
+        <if test="semester !=null and semester !=''">
+            and semester = #{semester}
+        </if>
+    </select>
 </mapper>

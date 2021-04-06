@@ -10,4 +10,8 @@ public interface ScheduleMapper {
     List<ScheduleVO> studentSchedule(ScheduleVO scheduleVO);
 
     List<ScheduleVO> classSchedule(ScheduleVO scheduleVO);
+
+    List<ScheduleVO> teacherSchedule(ScheduleVO scheduleVO);
+
+    List<ScheduleVO> classroomSchedule(ScheduleVO scheduleVO);
 }

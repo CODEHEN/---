@@ -25,7 +25,11 @@ public class ScheduleVO implements Serializable {
 
     private String roomName;
 
+    private String roomId;
+
     private String classTime;
+
+    private String className;
 
     private Integer type;
 
