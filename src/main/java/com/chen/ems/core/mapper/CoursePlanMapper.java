@@ -4,6 +4,8 @@ import com.chen.ems.core.model.ClassTaskVO;
 import com.chen.ems.core.model.CoursePlanVO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface CoursePlanMapper {
     int deleteByPrimaryKey(Long id);

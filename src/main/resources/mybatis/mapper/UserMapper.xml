@@ -32,4 +32,11 @@
         select username from ems_user left join ems_user_role eur on ems_user.id = eur.user_id where eur.role_id = 3 and username like CONCAT('%',#{value},'%')
     </select>
 
+    <select id="selectUserByToken" resultType="com.chen.ems.core.pojo.User">
+        select id, number, username, sex, origin, phone, email, political, address, avatar,
+               (select name from ems_college where ems_college.id = ems_user.college) as college,
+               (select name from ems_classes where ems_classes.id = ems_user.classes) as classes, 
+               (select major_name from ems_major where ems_major.id = ems_user.major) as major from ems_user where token = #{token}
+    </select>
+
 </mapper>

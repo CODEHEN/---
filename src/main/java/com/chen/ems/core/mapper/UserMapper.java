@@ -22,7 +22,7 @@ public interface UserMapper {
     @Select("select * from ems_user where number = #{number} ")
     User selectUserByNumber(String number);
 
-    @Select("select * from ems_user where token = #{token} ")
+
     User selectUserByToken(String token);
 
     @Update("update ems_user set token = #{token} where number = #{number}")
