@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.ems.core.mapper.StudentGradeMapper">
+    <resultMap id="BaseResultMap" type="com.chen.ems.core.model.StudentGradeVO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="number" jdbcType="VARCHAR" property="number"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="classes" jdbcType="VARCHAR" property="classes"/>
+        <result column="course" jdbcType="VARCHAR" property="course"/>
+        <result column="grade" jdbcType="INTEGER" property="grade"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="person" jdbcType="VARCHAR" property="person"/>
+        <result column="time" jdbcType="TIMESTAMP" property="time"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, `number`, `username`, classes, course, grade, `type`, person, `time`
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ems_student_grade
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getGradeInfo" resultType="com.chen.ems.core.model.StudentGradeVO">
+        select id, number, username, (select name from ems_classes where ems_classes.id = ems_user.classes) as classes,
+        (select grade from ems_student_grade where ems_student_grade.number = ems_user.number) as grade,
+        (select time from ems_student_grade where ems_student_grade.number = ems_user.number) as time,
+        (select person from ems_student_grade where ems_student_grade.number = ems_user.number) as person,
+        (select type from ems_student_grade where ems_student_grade.number = ems_user.number) as type
+        FROM ems_user
+        <where>
+            id in(SELECT user_id FROM ems_user_role where role_id = 2)
+            <if test="number != null and number != ''">
+                and number = #{number}
+            </if>
+            <if test="username != null and username != ''">
+                and username = #{username}
+            </if>
+            <if test="classes != null and classes != ''">
+                and classes = (select id from ems_classes where ems_classes.name = #{classes})
+            </if>
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from ems_student_grade
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.chen.ems.core.model.StudentGradeVO">
+        insert into ems_student_grade (`number`, `username`, classes,
+                                       course, grade, `type`,
+                                       person,time)
+        values (#{record.number,jdbcType=VARCHAR}, #{record.username,jdbcType=VARCHAR}, #{class,jdbcType=VARCHAR},
+                #{course,jdbcType=VARCHAR}, #{record.grade,jdbcType=INTEGER}, #{record.type,jdbcType=INTEGER},
+                #{person,jdbcType=VARCHAR},#{record.time})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.chen.ems.core.model.StudentGradeVO"
+            useGeneratedKeys="true">
+        insert into ems_student_grade
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="number != null">
+                `number`,
+            </if>
+            <if test="username != null">
+                `username`,
+            </if>
+            <if test="classes != null">
+                classes,
+            </if>
+            <if test="course != null">
+                course,
+            </if>
+            <if test="grade != null">
+                grade,
+            </if>
+            <if test="type != null">
+                `type`,
+            </if>
+            <if test="person != null">
+                person,
+            </if>
+            <if test="time != null">
+                `time`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="number != null">
+                #{number,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="classes != null">
+                #{classes,jdbcType=VARCHAR},
+            </if>
+            <if test="course != null">
+                #{course,jdbcType=VARCHAR},
+            </if>
+            <if test="grade != null">
+                #{grade,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="person != null">
+                #{person,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                #{time,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chen.ems.core.model.StudentGradeVO">
+        update ems_student_grade
+        <set>
+            <if test="number != null">
+                `number` = #{number,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                `username` = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="classes != null">
+                classes = #{classes,jdbcType=VARCHAR},
+            </if>
+            <if test="course != null">
+                course = #{course,jdbcType=VARCHAR},
+            </if>
+            <if test="grade != null">
+                grade = #{grade,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                `type` = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="person != null">
+                person = #{person,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                `time` = #{time,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chen.ems.core.model.StudentGradeVO">
+        update ems_student_grade
+        set `number`   = #{number,jdbcType=VARCHAR},
+            `username` = #{username,jdbcType=VARCHAR},
+            classes    = #{classes,jdbcType=VARCHAR},
+            course     = #{course,jdbcType=VARCHAR},
+            grade      = #{grade,jdbcType=INTEGER},
+            `type`     = #{type,jdbcType=INTEGER},
+            person     = #{person,jdbcType=VARCHAR},
+            `time`     = #{time,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
