@@ -7,7 +7,7 @@
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="classes" jdbcType="VARCHAR" property="classes"/>
         <result column="course" jdbcType="VARCHAR" property="course"/>
-        <result column="grade" jdbcType="INTEGER" property="grade"/>
+        <result column="grade" jdbcType="VARCHAR" property="grade"/>
         <result column="type" jdbcType="INTEGER" property="type"/>
         <result column="person" jdbcType="VARCHAR" property="person"/>
         <result column="time" jdbcType="TIMESTAMP" property="time"/>
@@ -22,24 +22,63 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
     <select id="getGradeInfo" resultType="com.chen.ems.core.model.StudentGradeVO">
-        select id, number, username, (select name from ems_classes where ems_classes.id = ems_user.classes) as classes,
-        (select grade from ems_student_grade where ems_student_grade.number = ems_user.number) as grade,
-        (select time from ems_student_grade where ems_student_grade.number = ems_user.number) as time,
-        (select person from ems_student_grade where ems_student_grade.number = ems_user.number) as person,
-        (select type from ems_student_grade where ems_student_grade.number = ems_user.number) as type
-        FROM ems_user
+        SELECT
+        u.id,
+        u.number,
+        u.username,
+        g.grade,
+        g.person,
+        g.course,
+        g.type,
+        c.name as classes,
+        g.time
+        FROM
+        ems_user u
+        LEFT JOIN ems_student_grade g ON u.number = g.number
+        <if test="course != null and course != ''">
+            and g.course = #{course}
+        </if>
+        and g.semester = #{semester}
+        LEFT JOIN ems_classes c ON u.classes = c.id
         <where>
-            id in(SELECT user_id FROM ems_user_role where role_id = 2)
+            u.id in(SELECT user_id FROM ems_user_role where role_id = 2)
             <if test="number != null and number != ''">
-                and number = #{number}
+                and u.number = #{number}
+            </if>
+            <if test="username != null and username != ''">
+                and u.username = #{username}
+            </if>
+            <if test="classes != null and classes != ''">
+                and c.name = #{classes}
+            </if>
+        </where>
+    </select>
+    <select id="ranking" resultType="com.chen.ems.core.model.StudentGradeVO">
+        select number,
+               username,
+               classes,
+               type,
+               semester,
+               group_concat(course) as course,
+               group_concat(grade)  as grade,
+               sum(grade)           as score
+        FROM ems_student_grade
+        <where>
+            <if test="major != null and major != ''">
+                and classes in (select name from ems_classes c left join ems_major m on m.id = c.major where m.major_name = #{major})
             </if>
             <if test="username != null and username != ''">
                 and username = #{username}
             </if>
             <if test="classes != null and classes != ''">
-                and classes = (select id from ems_classes where ems_classes.name = #{classes})
+                and classes = #{classes}
+            </if>
+            <if test="semester != null and semester != ''">
+                and semester = #{semester}
             </if>
         </where>
+        GROUP BY username
+        order BY score desc
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
@@ -49,10 +88,10 @@
     <insert id="insert" parameterType="com.chen.ems.core.model.StudentGradeVO">
         insert into ems_student_grade (`number`, `username`, classes,
                                        course, grade, `type`,
-                                       person,time)
+                                       person, time, semester)
         values (#{record.number,jdbcType=VARCHAR}, #{record.username,jdbcType=VARCHAR}, #{class,jdbcType=VARCHAR},
-                #{course,jdbcType=VARCHAR}, #{record.grade,jdbcType=INTEGER}, #{record.type,jdbcType=INTEGER},
-                #{person,jdbcType=VARCHAR},#{record.time})
+                #{course,jdbcType=VARCHAR}, #{record.grade,jdbcType=VARCHAR}, #{record.type,jdbcType=INTEGER},
+                #{person,jdbcType=VARCHAR}, #{record.time}, #{semester})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.chen.ems.core.model.StudentGradeVO"
             useGeneratedKeys="true">
@@ -97,7 +136,7 @@
                 #{course,jdbcType=VARCHAR},
             </if>
             <if test="grade != null">
-                #{grade,jdbcType=INTEGER},
+                #{grade,jdbcType=VARCHAR},
             </if>
             <if test="type != null">
                 #{type,jdbcType=INTEGER},
@@ -109,6 +148,15 @@
                 #{time,jdbcType=TIMESTAMP},
             </if>
         </trim>
+    </insert>
+    <insert id="insertGradeExcel">
+        insert into ems_student_grade (number,username, classes,
+        course, grade, type,person,semester) values
+        <foreach collection="record" item="grade" separator=",">
+            (#{grade.number,jdbcType=VARCHAR}, #{grade.username,jdbcType=VARCHAR}, #{class,jdbcType=VARCHAR},
+            #{course,jdbcType=VARCHAR}, #{grade.grade,jdbcType=VARCHAR}, #{grade.type,jdbcType=INTEGER},
+            #{person,jdbcType=VARCHAR},#{semester})
+        </foreach>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.chen.ems.core.model.StudentGradeVO">
         update ems_student_grade
@@ -126,7 +174,7 @@
                 course = #{course,jdbcType=VARCHAR},
             </if>
             <if test="grade != null">
-                grade = #{grade,jdbcType=INTEGER},
+                grade = #{grade,jdbcType=VARCHAR},
             </if>
             <if test="type != null">
                 `type` = #{type,jdbcType=INTEGER},
@@ -146,7 +194,7 @@
             `username` = #{username,jdbcType=VARCHAR},
             classes    = #{classes,jdbcType=VARCHAR},
             course     = #{course,jdbcType=VARCHAR},
-            grade      = #{grade,jdbcType=INTEGER},
+            grade      = #{grade,jdbcType=VARCHAR},
             `type`     = #{type,jdbcType=INTEGER},
             person     = #{person,jdbcType=VARCHAR},
             `time`     = #{time,jdbcType=TIMESTAMP}

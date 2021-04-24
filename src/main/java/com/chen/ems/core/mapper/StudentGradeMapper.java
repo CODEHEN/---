@@ -10,7 +10,7 @@ import java.util.List;
 public interface StudentGradeMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(@Param("record") StudentGradeVO record, @Param("class") String selectClass,@Param("course") String selectCourse,@Param("person") String person);
+    int insert(@Param("record") StudentGradeVO record, @Param("class") String selectClass,@Param("course") String selectCourse,@Param("person") String person, @Param("semester") String semester);
 
     int insertSelective(StudentGradeVO record);
 
@@ -21,4 +21,8 @@ public interface StudentGradeMapper {
     int updateByPrimaryKey(StudentGradeVO record);
 
     List<StudentGradeVO> getGradeInfo(StudentGradeVO gradeVO);
+
+    void insertGradeExcel(@Param("record") List e,@Param("class") String selectClass,@Param("course") String selectCourse,@Param("person") String person,@Param("semester") String semester);
+
+    List<StudentGradeVO> ranking(StudentGradeVO studentGradeVO);
 }

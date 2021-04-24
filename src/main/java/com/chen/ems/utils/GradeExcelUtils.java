@@ -6,6 +6,7 @@ import com.chen.ems.core.pojo.User;
 import com.chen.ems.core.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +15,8 @@ import java.util.List;
  * @Description:
  * @Date: Create in 19:30 2021/2/20
  */
-public class ExcelUtils extends AnalysisEventListener<User> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExcelUtils.class);
+public class GradeExcelUtils extends AnalysisEventListener<User> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GradeExcelUtils.class);
 
     /**
      * 每隔5条存储数据库，实际使用中可以3000条，然后清理list ，方便内存回收
@@ -27,7 +28,7 @@ public class ExcelUtils extends AnalysisEventListener<User> {
 
     List<User> list = new ArrayList<>();
 
-    public ExcelUtils(UserService userService, int roleId){
+    public GradeExcelUtils(UserService userService, int roleId){
         this.userService = userService;
         this.roleId = roleId;
     }
@@ -48,6 +49,5 @@ public class ExcelUtils extends AnalysisEventListener<User> {
         userService.saveData(list,roleId);
         LOGGER.info("所有数据解析完成！");
     }
-
 
 }
