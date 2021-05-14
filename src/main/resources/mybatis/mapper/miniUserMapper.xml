@@ -11,4 +11,9 @@
     <update id="updateById" parameterType="com.chen.ems.core.pojo.User">
         update ems_mini_user set token = #{token},last_visit_time = #{lastVisitTime} where open_id = #{openId}
     </update>
+    <update id="updateNumberById">
+        update ems_mini_user set number = #{number} where open_id = #{openId}
+    </update>
+
+
 </mapper>

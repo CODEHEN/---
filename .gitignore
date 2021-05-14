@@ -35,3 +35,28 @@ build/
 .vscode/
 /logs/
 /.gradle/
+/.gradle/
+
+[diff]
+
+tool = bc4
+
+[difftool]
+
+prompt = false
+
+[difftool "bc4"]
+
+cmd = "\"D:\Beyond Compare 4/bcomp.exe\" \"$LOCAL\" \"$REMOTE\""
+
+[merge]
+
+tool = bc
+
+[mergetool]
+
+prompt = false
+
+[mergetool "bc4"]
+
+cmd = "\"D:\Beyond Compare 4/bcomp.exe\" \"$LOCAL\" \"$REMOTE\" \"$BASE\" \"$MERGED\""

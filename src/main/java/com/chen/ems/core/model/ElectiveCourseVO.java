@@ -33,5 +33,7 @@ public class ElectiveCourseVO implements Serializable {
 
     private Integer remaining;
 
+    private String semester;
+
     private static final long serialVersionUID = 1L;
 }

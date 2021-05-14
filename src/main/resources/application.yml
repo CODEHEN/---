@@ -26,6 +26,14 @@ ems:
     # 错误超过次数后多少分钟后才能继续登录（分钟）
     loginAfterTime: 10
     ignoreUrls:
+      - //rap/info?**
+      - /course/classTask?**
+      - /notice/info?**
+      - /grade/student/cet?**
+      - /schedule/student
+      - /course/semester
+      - /grade/student/course?**
+      - /wx/bind
       - /druid/**
       - /schedule/**
       - /wx/login

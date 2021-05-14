@@ -21,6 +21,11 @@ public interface MiniUserMapper {
 
     void updateById(User user);
 
+    void updateNumberById(User user);
+
     @Select("select * from ems_mini_user where token = #{token}")
     User selectUserByToken(String token);
+
+    @Select("select id from ems_user where number = #{usernumber}")
+    Integer getUserIdByNumber(String usernumber);
 }

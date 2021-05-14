@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="generator.MiniUserMapper">
+  <resultMap id="BaseResultMap" type="com/chen/ems/miniProgram/pojo.MiniUser">
+    <id column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_visit_time" jdbcType="TIMESTAMP" property="lastVisitTime" />
+    <result column="session_key" jdbcType="VARCHAR" property="sessionKey" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="country" jdbcType="VARCHAR" property="country" />
+    <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
+    <result column="gender" jdbcType="TINYINT" property="gender" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    open_id, token, create_time, last_visit_time, session_key, city, province, country, 
+    avatar_url, gender, nick_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ems_mini_user
+    where open_id = #{openId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from ems_mini_user
+    where open_id = #{openId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="open_id" keyProperty="openId" parameterType="com/chen/ems/miniProgram/pojo.MiniUser" useGeneratedKeys="true">
+    insert into ems_mini_user (token, create_time, last_visit_time, 
+      session_key, city, province, 
+      country, avatar_url, gender, 
+      nick_name)
+    values (#{token,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{lastVisitTime,jdbcType=TIMESTAMP}, 
+      #{sessionKey,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{country,jdbcType=VARCHAR}, #{avatarUrl,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, 
+      #{nickName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="open_id" keyProperty="openId" parameterType="com/chen/ems/miniProgram/pojo.MiniUser" useGeneratedKeys="true">
+    insert into ems_mini_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="token != null">
+        token,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastVisitTime != null">
+        last_visit_time,
+      </if>
+      <if test="sessionKey != null">
+        session_key,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="country != null">
+        country,
+      </if>
+      <if test="avatarUrl != null">
+        avatar_url,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="token != null">
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastVisitTime != null">
+        #{lastVisitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sessionKey != null">
+        #{sessionKey,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarUrl != null">
+        #{avatarUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com/chen/ems/miniProgram/pojo.MiniUser">
+    update ems_mini_user
+    <set>
+      <if test="token != null">
+        token = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastVisitTime != null">
+        last_visit_time = #{lastVisitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sessionKey != null">
+        session_key = #{sessionKey,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarUrl != null">
+        avatar_url = #{avatarUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where open_id = #{openId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com/chen/ems/miniProgram/pojo.MiniUser">
+    update ems_mini_user
+    set token = #{token,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_visit_time = #{lastVisitTime,jdbcType=TIMESTAMP},
+      session_key = #{sessionKey,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      avatar_url = #{avatarUrl,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=TINYINT},
+      nick_name = #{nickName,jdbcType=VARCHAR}
+    where open_id = #{openId,jdbcType=VARCHAR}
+  </update>
+</mapper>

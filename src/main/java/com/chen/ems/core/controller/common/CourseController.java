@@ -3,6 +3,7 @@ package com.chen.ems.core.controller.common;
 import com.chen.ems.core.model.ClassTaskVO;
 import com.chen.ems.core.model.CourseVO;
 import com.chen.ems.core.model.ElectiveCourseVO;
+import com.chen.ems.core.model.StudentElectiveVO;
 import com.chen.ems.core.service.ClassRoomService;
 import com.chen.ems.core.service.CourseService;
 import com.chen.ems.utils.ApiResult;
@@ -128,7 +129,7 @@ public class CourseController {
     }
 
     @GetMapping("/semester")
-    public ApiResult Semester() {
+    public ApiResult semester() {
         List<String> semesters = courseService.selectSemester("semester");
         return ApiResult.ok(200,"获取成功",semesters);
     }
@@ -165,6 +166,33 @@ public class CourseController {
         }
         courseService.putElectiveCourse(courseVO);
         return ApiResult.ok(200, "修改成功");
+    }
+
+    @PostMapping("/elective/student")
+    @ApiOperation(value = "学生选修课程", httpMethod = "Post", response = ApiResult.class, notes = "修改成功")
+    public ApiResult studentElectiveCourse(@RequestBody StudentElectiveVO electiveVO) {
+        boolean flag = courseService.studentElectiveCourse(electiveVO);
+        if (!flag) {
+            return ApiResult.fail(201, "课程已选满");
+        }
+        return ApiResult.ok(200, "选课成功");
+    }
+
+    @DeleteMapping("/elective/student")
+    @ApiOperation(value = "学生退课", httpMethod = "Post", response = ApiResult.class, notes = "修改成功")
+    public ApiResult studentdelCourse(@RequestBody StudentElectiveVO electiveVO) {
+        courseService.studentdelCourse(electiveVO);
+        return ApiResult.ok(200, "退课成功");
+    }
+
+    @PostMapping("/elective/student/info")
+    @ApiOperation(value = "学生选课结果", httpMethod = "Post", response = ApiResult.class, notes = "修改成功")
+    public ApiResult studentCourseInfo(@RequestBody StudentElectiveVO electiveVO,@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
+        PageHelper.clearPage();
+        PageHelper.startPage(pageNum, pageSize);
+        List<ElectiveCourseVO> electiveCourseVOS = courseService.getstudentCourseInfo(electiveVO);
+        PageInfo<ElectiveCourseVO> courseVOPageInfo = new PageInfo<>(electiveCourseVOS);
+        return ApiResult.ok(200, "获取课程信息成功", courseVOPageInfo);
     }
 
 

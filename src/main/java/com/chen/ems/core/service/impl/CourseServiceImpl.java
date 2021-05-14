@@ -41,6 +41,9 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     private ElectiveCourseMapper electiveCourseMapper;
 
+    @Autowired
+    private StudentElectiveMapper studentElectiveMapper;
+
     @Override
     public List<CourseVO> getCourseInfo(CourseVO courseVO) {
         return courseMapper.getClassesInfo(courseVO);
@@ -84,14 +87,15 @@ public class CourseServiceImpl implements CourseService {
     @Transactional(rollbackFor=Exception.class)
     @Override
     public boolean classScheduling(ClassTaskVO classTaskVO) {
+            //第一步先获得开课任务
             List<ClassTaskVO> classTaskList = courseMapper.selectBySemester(classTaskVO);
-
+            //第二步将开课任务进行编码
             List<String> geneList = coding(classTaskList);
-
+            //第三步开始进行时间分配
             List<String> resultGeneList = codingTime(geneList);
-
+            //第四步对已分配好时间的基因进行分类，生成以班级为范围的个体
             Map<String, List<String>> individualMap = transformIndividual(resultGeneList);
-
+            //第五步进行遗传进化操作
             individualMap = geneticEvolution(individualMap);
 
             //第六步分配教室
@@ -148,6 +152,33 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void putElectiveCourse(ElectiveCourseVO courseVO) {
         electiveCourseMapper.updateByPrimaryKeySelective(courseVO);
+    }
+
+    @Override
+    public boolean studentElectiveCourse(StudentElectiveVO electiveVO) {
+        ElectiveCourseVO electiveCourseVO = electiveCourseMapper.selectByPrimaryKey(electiveVO.getCourseId());
+        int remaining  = electiveCourseVO.getRemaining();
+        if (remaining <= 0) {
+            return false;
+        }
+        electiveCourseVO.setRemaining(remaining-1);
+        electiveCourseMapper.updateByPrimaryKey(electiveCourseVO);
+        studentElectiveMapper.insert(electiveVO);
+        return true;
+    }
+
+    @Override
+    public void studentdelCourse(StudentElectiveVO electiveVO) {
+        ElectiveCourseVO electiveCourseVO = electiveCourseMapper.selectByPrimaryKey(electiveVO.getCourseId());
+        int remaining  = electiveCourseVO.getRemaining();
+        electiveCourseVO.setRemaining(remaining+1);
+        electiveCourseMapper.updateByPrimaryKey(electiveCourseVO);
+        studentElectiveMapper.deleteByPrimaryKey(electiveVO.getCourseId());
+    }
+
+    @Override
+    public List<ElectiveCourseVO> getstudentCourseInfo(StudentElectiveVO electiveVO) {
+        return electiveCourseMapper.getstudentCourseInfo(electiveVO);
     }
 
     private List<CoursePlanVO> decoding(List<String> resultList) {
@@ -291,6 +322,14 @@ public class CourseServiceImpl implements CourseService {
         return map;
     }
 
+    /**
+     * 将从表中查询的开课任务对象集合进行编码，组成初始基因
+     * 编码规则为：是否固定+班级编号+教师编号+课程编号+课程属性+开课时间
+     * 其中如果是否固定为否则开课时间默认填充为"00"
+     *
+     * @param classTaskList
+     * @return List<String>
+     */
     private List<String> coding(List<ClassTaskVO> classTaskList) {
         List<Map<String, List<String>>> geneList = new ArrayList<>();
         Map<String, List<String>> geneListMap = new HashMap<>();
@@ -337,6 +376,7 @@ public class CourseServiceImpl implements CourseService {
         return individualMap;
     }
 
+    //开始遗传进化操作
     public Map<String, List<String>> geneticEvolution(Map<String, List<String>> individualMap) {
         int generation = Constants.GENERATION;//进化代数设为100
         List<String> resultGeneList;
@@ -356,6 +396,7 @@ public class CourseServiceImpl implements CourseService {
         return individualMap;
     }
 
+    //解决冲突，同一时间一个教师上多门课的冲突
     private List<String> conflictResolution(List<String> resultGeneList) {
         exit:
         for (int i = 0; i < resultGeneList.size(); ++i) {
@@ -369,7 +410,6 @@ public class CourseServiceImpl implements CourseService {
                 if (teacherNo.equals(tempTeacherNo) && classTime.equals(tempClassTime)) {
                     String newClassTime = ClassSchedulUtil.randomTime(gene, resultGeneList);
                     gene = gene.substring(0,gene.lastIndexOf(",")) +"," + newClassTime;
-                    // 这里不确定
                     resultGeneList.set(i,gene);
                     continue exit;
                 }

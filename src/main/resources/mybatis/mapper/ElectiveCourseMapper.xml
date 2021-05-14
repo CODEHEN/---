@@ -12,16 +12,16 @@
     <result column="type" jdbcType="INTEGER" property="type" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, course_id, course_name, teacher_id, classroom_id, class_time, course_attr, type
+    id, course_id, course_name, teacher_id, classroom_id, class_time, course_attr, type, totalNum, remaining, semester
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from ems_electivecourse
-    where id = #{id,jdbcType=INTEGER}
+    where course_id = #{courseId}
   </select>
     <select id="getElectiveCourseInfo" resultType="com.chen.ems.core.model.ElectiveCourseVO">
-      select id,course_id,course_name,class_time,course_attr,type,totalNum,remaining,
+      select id,course_id,course_name,class_time,course_attr,type,totalNum,remaining,semester,
       (select username from ems_user where number = teacher_id) as teacherName,
       (select CONCAT(etb.build_name,r.classroomName) from ems_classroom r left join ems_teach_build etb on r.teach_build_id = etb.id where r.id = classroom_id) as className
       from ems_electivecourse
@@ -32,20 +32,29 @@
       <if test="type !=null">
         and type = #{type}
       </if>
+      <if test="semester !=null and semester != ''">
+        and semester = #{semester}
+      </if>
       </where>
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <select id="getstudentCourseInfo" resultType="com.chen.ems.core.model.ElectiveCourseVO">
+    select e.id, e.course_id, e.course_name, e.classroom_id, e.class_time, e.course_attr, e.type, e.semester,
+    (select username from ems_user where number = e.teacher_id) as teacherName,
+    (select CONCAT(etb.build_name,r.classroomName) from ems_classroom r left join ems_teach_build etb on r.teach_build_id = etb.id where r.id = classroom_id) as className
+    from ems_electivecourse e left join ems_student_elective ese on e.course_id = ese.course_id where ese.student_number = #{studentNumber}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from ems_electivecourse
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.chen.ems.core.model.ElectiveCourseVO" useGeneratedKeys="true">
     insert into ems_electivecourse (course_id, course_name, teacher_id, 
       classroom_id, class_time, course_attr,totalNum, remaining,
-      type)
+      type,semester)
     values (#{courseId,jdbcType=VARCHAR}, #{courseName,jdbcType=VARCHAR},
             (select number from ems_user where username = #{teacherName,jdbcType=VARCHAR}),
       #{classroomId,jdbcType=VARCHAR}, #{classTime,jdbcType=VARCHAR}, #{courseAttr,jdbcType=VARCHAR},
-        #{totalNum},#{totalNum},#{type,jdbcType=INTEGER})
+        #{totalNum},#{totalNum},#{type,jdbcType=INTEGER},#{semester})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.chen.ems.core.model.ElectiveCourseVO" useGeneratedKeys="true">
     insert into ems_electivecourse
@@ -122,7 +131,10 @@
       </if>
       <if test="totalNum != null">
         totalNum = #{totalNum,jdbcType=INTEGER},
-        remaining = #{totalNum,jdbcType=INTEGER}
+        remaining = #{totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="semester != null and semester != ''">
+        semester = #{semester}
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -135,7 +147,13 @@
       classroom_id = #{classroomId,jdbcType=VARCHAR},
       class_time = #{classTime,jdbcType=VARCHAR},
       course_attr = #{courseAttr,jdbcType=VARCHAR},
-      type = #{type,jdbcType=INTEGER}
+      type = #{type,jdbcType=INTEGER},
+    <if test="remaining != null and remaining != ''">
+      remaining = #{remaining,jdbcType=INTEGER},
+    </if>
+    <if test="semester != null and semester != ''">
+      semester = #{semester}
+    </if>
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

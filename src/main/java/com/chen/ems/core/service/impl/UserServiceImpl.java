@@ -98,4 +98,24 @@ public class UserServiceImpl implements UserService {
     public List<String> getteaName(String value) {
         return userMapper.getTeacherName(value);
     }
+
+    @Override
+    public void updateInfo(UserInfoVO userInfoVO) {
+        userMapper.updateUserInfo(userInfoVO);
+    }
+
+    @Override
+    public String getPwd(String number) {
+        return userMapper.getPwd(number);
+    }
+
+    @Override
+    public void updatePwd(String newPwd, String number) {
+        userMapper.updatePwd(newPwd,number);
+    }
+
+    @Override
+    public User getCurrentUserInfoByNumber(String number) {
+        return userMapper.selectUserInfoByNumber(number);
+    }
 }

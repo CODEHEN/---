@@ -52,4 +52,8 @@ public class PasswordUtils {
         }
         return encodedPassword;
     }
+
+    public static void main(String[] args) {
+        System.out.println(encodePassword("19981007", "zhengqing"));
+    }
 }

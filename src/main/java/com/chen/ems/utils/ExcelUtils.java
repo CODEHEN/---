@@ -16,22 +16,18 @@ import java.util.List;
  */
 public class ExcelUtils extends AnalysisEventListener<User> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExcelUtils.class);
-
     /**
      * 每隔5条存储数据库，实际使用中可以3000条，然后清理list ，方便内存回收
      */
     private static final int BATCH_COUNT = 3000;
-
     private UserService userService;
     private int roleId;
-
     List<User> list = new ArrayList<>();
 
     public ExcelUtils(UserService userService, int roleId){
         this.userService = userService;
         this.roleId = roleId;
     }
-
     @Override
     public void invoke(User user, AnalysisContext analysisContext) {
         list.add(user);
@@ -42,7 +38,6 @@ public class ExcelUtils extends AnalysisEventListener<User> {
             list.clear();
         }
     }
-
     @Override
     public void doAfterAllAnalysed(AnalysisContext analysisContext) {
         userService.saveData(list,roleId);

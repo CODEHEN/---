@@ -25,4 +25,6 @@ public interface StudentGradeMapper {
     void insertGradeExcel(@Param("record") List e,@Param("class") String selectClass,@Param("course") String selectCourse,@Param("person") String person,@Param("semester") String semester);
 
     List<StudentGradeVO> ranking(StudentGradeVO studentGradeVO);
+
+    List<StudentGradeVO> studentCourseGrade(@Param("number")String number,@Param("semester") String semester);
 }

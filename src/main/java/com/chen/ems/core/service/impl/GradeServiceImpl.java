@@ -86,5 +86,10 @@ public class GradeServiceImpl implements GradeService {
         });
         return gradeTable;
     }
+
+    @Override
+    public List<StudentGradeVO> studentCourseGrade(String number, String semester) {
+        return mapper.studentCourseGrade(number,semester);
+    }
 }
 

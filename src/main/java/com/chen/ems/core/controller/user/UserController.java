@@ -10,6 +10,7 @@ import com.chen.ems.core.service.UserService;
 import com.chen.ems.core.service.impl.UserServiceImpl;
 import com.chen.ems.utils.ApiResult;
 import com.chen.ems.utils.ExcelUtils;
+import com.chen.ems.utils.PasswordUtils;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,11 +46,9 @@ public class UserController {
     @PostMapping("/userInfoExcel")
     @ApiOperation(value = "用户数据Excel上传批量保存",httpMethod = "POST", response = ApiResult.class, notes = "保存成功")
     public ApiResult userInfoExcel(MultipartFile file, int roleId){
-
         if (file == null) {
             return ApiResult.fail("未上传文件");
         }
-
         InputStream inputStream;
 
         try {
@@ -57,10 +56,7 @@ public class UserController {
         }catch (IOException ex) {
             throw new MyException("Excel转换异常");
         }
-
         EasyExcel.read(inputStream, User.class,new ExcelUtils(userService,roleId)).sheet().doRead();
-
-
         return ApiResult.ok(200,"插入成功");
     }
 
@@ -76,4 +72,32 @@ public class UserController {
         return ApiResult.ok(200,"获取成功",names);
     }
 
+    @PutMapping("/info")
+    @ApiOperation(value = "用户更新个人信息", httpMethod = "Put", response = ApiResult.class, notes = "更新成功")
+    public ApiResult updateStudent(@RequestBody UserInfoVO userInfoVO){
+        try{
+            userService.updateInfo(userInfoVO);
+            return ApiResult.ok(200,"更新成功");
+        }catch (Exception e){
+            throw new MyException(500,"服务错误，请重试");
+        }
+    }
+
+    @PutMapping("/pwd")
+    @ApiOperation(value = "用户更新个人信息", httpMethod = "Put", response = ApiResult.class, notes = "更新成功")
+    public ApiResult updateStudent(@RequestParam("oldPwd") String oldPwd,@RequestParam("newPwd") String newPwd,@RequestParam("number") String number){
+        try{
+            String pwd = userService.getPwd(number);
+            String encodePassword = PasswordUtils.encodePassword(oldPwd,"zhengqing");
+            if (!pwd.equalsIgnoreCase(encodePassword)) {
+                return ApiResult.ok(201,"旧密码错误");
+            } else {
+                newPwd = PasswordUtils.encodePassword(newPwd,"zhengqing");
+                userService.updatePwd(newPwd,number);
+                return ApiResult.ok(200,"更新成功");
+            }
+        }catch (Exception e){
+            throw new MyException(500,"服务错误，请重试");
+        }
+    }
 }

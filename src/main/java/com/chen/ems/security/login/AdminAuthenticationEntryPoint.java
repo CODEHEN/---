@@ -23,7 +23,7 @@ public class AdminAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
 
         if (e!=null){
-            ResponseUtils.out(httpServletResponse, ApiResult.expired(e.getMessage()));    // 未登录
+            ResponseUtils.out(httpServletResponse, ApiResult.expired("未登录"));    // 未登录
         } else {
             ResponseUtils.out(httpServletResponse, ApiResult.expired("jwtToken过期!"));  //  token过期
         }

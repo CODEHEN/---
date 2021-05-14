@@ -1,9 +1,11 @@
 package com.chen.ems.miniProgram.service.impl;
 
+import com.chen.ems.core.mapper.UserRoleMapper;
 import com.chen.ems.core.pojo.Role;
 import com.chen.ems.core.pojo.User;
 import com.chen.ems.miniProgram.mapper.MiniUserMapper;
 import com.chen.ems.security.dto.SecurityUser;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,6 +25,9 @@ public class MiniUserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private MiniUserMapper userMapper;
 
+    @Autowired
+    private UserRoleMapper userRoleMapper;
+
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userMapper.selectById(s);
@@ -30,7 +35,10 @@ public class MiniUserDetailsServiceImpl implements UserDetailsService {
         if (user == null) {
             return null;
         }
-        return new SecurityUser(user, getUserRoles(user.getId()));
+        if (StringUtils.isBlank(user.getNumber())){
+            user.setNumber("001");
+        }
+        return new SecurityUser(user, getUserRoles(user.getNumber()));
     }
 
     /***
@@ -39,18 +47,17 @@ public class MiniUserDetailsServiceImpl implements UserDetailsService {
      */
     public SecurityUser getUserByToken(String token) {
         User user  = userMapper.selectUserByToken(token);
-        return user != null ? new SecurityUser(user, getUserRoles(user.getId())) : null;
+        return user != null ? new SecurityUser(user, getUserRoles(user.getOpenId())) : null;
     }
 
     /**
      * 根据用户id获取角色权限信息
      *
-     * @param userId
+     * @param usernumber
      * @return
      */
-    private List<Role> getUserRoles(Integer userId) {
-//        List<Role> roleList = userRoleMapper.selectRoleByUserId(userId);
-        // 以后处理
-        return null;
+    private List<Role> getUserRoles(String usernumber) {
+        Integer userId = userMapper.getUserIdByNumber(usernumber);
+        return userRoleMapper.selectRoleByUserId(userId);
     }
 }

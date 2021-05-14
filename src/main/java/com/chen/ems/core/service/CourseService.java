@@ -3,6 +3,7 @@ package com.chen.ems.core.service;
 import com.chen.ems.core.model.ClassTaskVO;
 import com.chen.ems.core.model.CourseVO;
 import com.chen.ems.core.model.ElectiveCourseVO;
+import com.chen.ems.core.model.StudentElectiveVO;
 
 import java.util.List;
 
@@ -37,5 +38,11 @@ public interface CourseService {
     void addElectiveCourse(ElectiveCourseVO courseVO);
 
     void putElectiveCourse(ElectiveCourseVO courseVO);
+
+    boolean studentElectiveCourse(StudentElectiveVO electiveVO);
+
+    void studentdelCourse(StudentElectiveVO electiveVO);
+
+    List<ElectiveCourseVO> getstudentCourseInfo(StudentElectiveVO electiveVO);
 }
 

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
@@ -165,7 +166,20 @@ public class GradeController {
         List<LinkedList<String>> studentGradeVOS = gradeService.ranking(studentGradeVO);
         return ApiResult.ok(200,"成功",studentGradeVOS);
     }
-    
+
+    @GetMapping("/student/course")
+    public ApiResult studentCourse(@RequestParam("number") String number,@RequestParam("semester") String semester) {
+        List<StudentGradeVO> studentGradeVOS = gradeService.studentCourseGrade(number,semester);
+        return ApiResult.ok(200,"获取成功",studentGradeVOS);
+
+    }
+
+    @GetMapping(value = "/student/cet")
+    @ResponseBody
+    public ApiResult CetScoreQuery(@RequestParam("ticketNumber") String ticketNumber, @RequestParam("name") String name, HttpServletRequest request) {
+        Map<String, Object> map = ResultQueryTool.resultInquiry(ticketNumber, name, request);
+        return ApiResult.ok(200,"成功",map);
+    }
 
 
 

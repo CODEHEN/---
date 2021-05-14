@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -44,12 +45,13 @@ public class MiniProgramAuthenticationProvider implements AuthenticationProvider
             user.setLastVisitTime(new Date());
             user.setOpenId(openId);
             miniUserMapper.insert(user);
+            userInfo = (SecurityUser) miniUserDetailsService.loadUserByUsername(openId);
         }
         String jwt = Jwts.builder()
                 // 用户角色
                 .claim(Constants.ROLE_LOGIN, "wx")
                 // 主题 - 存用户名
-                .setSubject(((User) authentication.getPrincipal()).getUsername())
+                .setSubject(((User) authentication.getPrincipal()).getNickName())
                 // 过期时间 - 3分钟
                 .setExpiration(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
                 // 加密算法和密钥
@@ -60,7 +62,7 @@ public class MiniProgramAuthenticationProvider implements AuthenticationProvider
         user.setLastVisitTime(new Date());
         miniUserMapper.updateById(user);
         userInfo.getCurrentUserInfo().setToken(jwt);
-        return new WxLoginAuthenticationToken(userInfo,openId);
+        return new WxLoginAuthenticationToken(userInfo,openId,userInfo.getAuthorities());
     }
 
     @Override

@@ -23,6 +23,24 @@
             (#{user.number},#{user.username},#{user.password},#{user.salt},#{user.sex},#{user.phone},#{user.email},#{user.political},#{user.address},(select id from ems_college where name = #{user.college}))
         </foreach>
     </insert>
+    <update id="updateUserInfo">
+        update ems_user
+        <set>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+        </set>
+        where number = #{number}
+    </update>
+    <update id="updatePwd">
+        update ems_user set password = #{newPwd} where number = #{number}
+    </update>
 
     <select id="getName" resultType="string">
         select username from ems_user where username like CONCAT('%',#{value},'%')
@@ -37,6 +55,17 @@
                (select name from ems_college where ems_college.id = ems_user.college) as college,
                (select name from ems_classes where ems_classes.id = ems_user.classes) as classes, 
                (select major_name from ems_major where ems_major.id = ems_user.major) as major from ems_user where token = #{token}
+    </select>
+
+    <select id="selectUserInfoByNumber" resultType="com.chen.ems.core.pojo.User">
+        select id, number, username, sex, origin, phone, email, political, address, avatar,
+               (select name from ems_college where ems_college.id = ems_user.college) as college,
+               (select name from ems_classes where ems_classes.id = ems_user.classes) as classes,
+               (select major_name from ems_major where ems_major.id = ems_user.major) as major from ems_user where number = #{number}
+    </select>
+
+    <select id="getPwd" resultType="java.lang.String">
+        select password from ems_user where number = #{number}
     </select>
 
 </mapper>

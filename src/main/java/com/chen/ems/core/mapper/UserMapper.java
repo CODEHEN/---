@@ -25,6 +25,8 @@ public interface UserMapper {
 
     User selectUserByToken(String token);
 
+    User selectUserInfoByNumber(String number);
+
     @Update("update ems_user set token = #{token} where number = #{number}")
     void updateUserByNumber(User user);
 
@@ -37,4 +39,10 @@ public interface UserMapper {
     List<String> getName(@Param("value") String value);
 
     List<String> getTeacherName(@Param("value") String value);
+
+    void updateUserInfo(UserInfoVO userInfoVO);
+
+    String getPwd(String number);
+
+    void updatePwd(@Param("newPwd") String newPwd,@Param("number") String number);
 }

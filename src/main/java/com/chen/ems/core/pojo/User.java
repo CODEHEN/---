@@ -123,10 +123,6 @@ public class User implements Serializable {
     private String sex;
 
     /**
-     * open_id
-     */
-    private String openId;
-    /**
      * skey
      */
     private String skey;
@@ -145,6 +141,8 @@ public class User implements Serializable {
      */
     private String sessionKey;
 
+    private String city;
+
     /**
      * token
      */
@@ -156,5 +154,36 @@ public class User implements Serializable {
      */
     @ApiModelProperty(value = "avatar")
     private String avatar;
+
+    /**
+     * open_id
+     */
+    private String openId;
+
+
+    /**
+     * 省
+     */
+    private String province;
+
+    /**
+     * 国
+     */
+    private String country;
+
+    /**
+     * 头像
+     */
+    private String avatarUrl;
+
+    /**
+     * 性别
+     */
+    private Byte gender;
+
+    /**
+     * 网名
+     */
+    private String nickName;
 
 }

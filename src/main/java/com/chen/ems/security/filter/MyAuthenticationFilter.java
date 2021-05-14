@@ -1,14 +1,13 @@
 package com.chen.ems.security.filter;
 
 import com.chen.ems.core.service.impl.UserDetailsServiceImpl;
+import com.chen.ems.miniProgram.service.impl.MiniUserDetailsServiceImpl;
 import com.chen.ems.security.dto.SecurityUser;
 import com.chen.ems.security.login.AdminAuthenticationEntryPoint;
 import com.chen.ems.utils.Constants;
 import com.chen.ems.utils.MultiReadHttpServletRequest;
 import com.chen.ems.utils.MultiReadHttpServletResponse;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +40,11 @@ public class MyAuthenticationFilter extends OncePerRequestFilter {
 
     private final UserDetailsServiceImpl userDetailsService;
 
-    public MyAuthenticationFilter(UserDetailsServiceImpl userDetailsService) {
+    private final MiniUserDetailsServiceImpl miniUserDetailsService;
+
+    public MyAuthenticationFilter(UserDetailsServiceImpl userDetailsService, MiniUserDetailsServiceImpl miniUserDetailsService) {
         this.userDetailsService = userDetailsService;
+        this.miniUserDetailsService = miniUserDetailsService;
     }
 
     @Override
@@ -65,14 +67,6 @@ public class MyAuthenticationFilter extends OncePerRequestFilter {
             String jwtToken = wrappedRequest.getHeader(Constants.REQUEST_HEADER);
             log.debug("后台检查令牌:{}", jwtToken);
             if (StringUtils.isNotBlank(jwtToken) && !"undefined".equals(jwtToken)) {
-                // JWT相关start ===========================================
-//                // 获取jwt中的信息
-//                Claims claims = Jwts.parser().setSigningKey(Constants.SALT).parseClaimsJws(jwtToken.replace("Bearer", "")).getBody();
-//                // 获取当前登录用户名
-//                System.out.println("获取当前登录用户名: " + claims.getSubject());
-                // TODO 如需使用jwt特性在此做处理~
-                // JWT相关end ===========================================
-                // 检查token
                 SecurityUser securityUser = userDetailsService.getUserByToken(jwtToken);
                 if (securityUser == null || securityUser.getCurrentUserInfo() == null) {
                     throw new BadCredentialsException("TOKEN已过期，请重新登录！");

@@ -62,7 +62,7 @@ public class ScheduleController {
         String [][] scheduleTable= new String[7][5];
         for (ScheduleVO schedule : scheduleVOS) {
             int classTime = Integer.parseInt(schedule.getClassTime());
-            String sheduleInfo = schedule.getCourseName() + "\n" +schedule.getBuildName()+"\n" + schedule.getClassName()+ "\n" +schedule.getRoomName();
+            String sheduleInfo = schedule.getCourseName() + "\n" +schedule.getClassName()+"\n" + schedule.getBuildName()+ "\n" +schedule.getRoomName();
             int day = classTime%5 ==0 ?4:classTime%5-1;
             scheduleTable[classTime/5][day] = sheduleInfo;
         }

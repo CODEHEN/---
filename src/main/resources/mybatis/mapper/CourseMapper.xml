@@ -61,7 +61,6 @@
                 and semester = #{semester}
             </if>
         </where>
-
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
@@ -143,7 +142,7 @@
     </select>
 
     <select id="selectByColumnName" resultType="java.lang.String" parameterType="java.lang.String">
-        select distinct  ${classNo} from ems_class_task
+        select distinct  ${classNo} from ems_class_task ORDER BY ${classNo} desc
     </select>
     <select id="studentSchedule" resultType="com.chen.ems.core.model.ClassTaskVO"></select>
     <select id="isNullCourseId" resultType="java.lang.Boolean">

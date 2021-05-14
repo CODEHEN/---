@@ -58,7 +58,7 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
 
         // TODO 忽略url请放在此处进行过滤放行
         for (String ignoreUrl : myProperties.getAuth().getIgnoreUrls()) {
-            if (ignoreUrl.equals(url)){
+            if (ignoreUrl.equals(url) || antPathMatcher.match(ignoreUrl,url)){
                 return null;
             }
         }

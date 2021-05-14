@@ -20,4 +20,12 @@ public interface UserService {
     List<String> getName(String value);
 
     List<String> getteaName(String value);
+
+    void updateInfo(UserInfoVO userInfoVO);
+
+    String getPwd(String number);
+
+    void updatePwd(String newPwd, String number);
+
+    User getCurrentUserInfoByNumber(String number);
 }

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.ems.core.mapper.StudentElectiveMapper">
+  <resultMap id="BaseResultMap" type="com.chen.ems.core.model.StudentElectiveVO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="student_number" jdbcType="VARCHAR" property="studentNumber" />
+    <result column="course_id" jdbcType="VARCHAR" property="courseId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, student_number, course_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ems_student_elective
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from ems_student_elective
+    where course_id = #{id}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.chen.ems.core.model.StudentElectiveVO" useGeneratedKeys="true">
+    insert into ems_student_elective (student_number, course_id)
+    values (#{studentNumber}, #{courseId})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.chen.ems.core.model.StudentElectiveVO" useGeneratedKeys="true">
+    insert into ems_student_elective
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="studentNumber != null">
+        student_number,
+      </if>
+      <if test="courseId != null">
+        course_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="studentNumber != null">
+        #{studentNumber,jdbcType=INTEGER},
+      </if>
+      <if test="courseId != null">
+        #{courseId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chen.ems.core.model.StudentElectiveVO">
+    update ems_student_elective
+    <set>
+      <if test="studentNumber != null">
+        student_number = #{studentNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null">
+        course_id = #{courseId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chen.ems.core.model.StudentElectiveVO">
+    update ems_student_elective
+    set student_number = #{studentNumber,jdbcType=VARCHAR},
+      course_id = #{courseId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

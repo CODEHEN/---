@@ -4,10 +4,17 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.chen.ems.common.exception.MyException;
 import com.chen.ems.core.pojo.User;
+import com.chen.ems.miniProgram.service.impl.MiniUserDetailsServiceImpl;
 import com.chen.ems.miniProgram.utils.WechatUtil;
+import com.chen.ems.security.dto.SecurityUser;
+import com.chen.ems.utils.MultiReadHttpServletRequest;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -23,6 +30,9 @@ import java.io.IOException;
  * @Date: Create in 15:09 2020/8/30
  */
 public class MiniProgramAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+
+    @Autowired
+    private MiniUserDetailsServiceImpl miniUserDetailsService;
 
     public MiniProgramAuthenticationFilter() {
         super(new AntPathRequestMatcher("/wx/login", "POST"));
@@ -50,6 +60,7 @@ public class MiniProgramAuthenticationFilter extends AbstractAuthenticationProce
 
         // 3.接收微信接口服务 获取返回的参数
         String openid = sessionKeyOpenId.getString("openid");
+        System.out.println(openid);
         String sessionKey = sessionKeyOpenId.getString("session_key");
         // 4.校验签名 小程序发送的签名signature与服务器端生成的签名signature2 = sha1(rawData + sessionKey)
         String signature2 = DigestUtils.sha1Hex(jsonObject.getString("rawData") + sessionKey);
@@ -59,8 +70,14 @@ public class MiniProgramAuthenticationFilter extends AbstractAuthenticationProce
 
         User user = JSONObject.parseObject(String.valueOf(rawDataJson), User.class);
 
+        user.setSessionKey(sessionKey);
+
         WxLoginAuthenticationToken authRequest = new WxLoginAuthenticationToken(user, openid, null);
-//        authRequest.setDetails(authenticationDetailsSource.buildDetails());
+
+        MultiReadHttpServletRequest wrappedRequest = new MultiReadHttpServletRequest(httpServletRequest);
+
+        authRequest.setDetails(authenticationDetailsSource.buildDetails(wrappedRequest));
+
         return this.getAuthenticationManager().authenticate(authRequest);
     }
 }

@@ -80,6 +80,9 @@
         GROUP BY username
         order BY score desc
     </select>
+    <select id="studentCourseGrade" resultType="com.chen.ems.core.model.StudentGradeVO">
+        select * from ems_student_grade where number=#{number} and semester = #{semester}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
         from ems_student_grade

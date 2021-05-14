@@ -16,5 +16,7 @@ public interface GradeService {
     List<StudentGradeVO> getGradeInfo(StudentGradeVO gradeVO);
 
     List<LinkedList<String>> ranking(StudentGradeVO studentGradeVO);
+
+    List<StudentGradeVO> studentCourseGrade(String number, String semester);
 }
 
