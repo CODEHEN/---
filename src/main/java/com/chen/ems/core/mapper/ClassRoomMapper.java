@@ -2,6 +2,7 @@ package com.chen.ems.core.mapper;
 
 import com.chen.ems.core.model.ClassRoomVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -24,4 +25,6 @@ public interface ClassRoomMapper {
     List<ClassRoomVO> selectByTeachBuildNo(String teachBuildNo);
 
     Integer getId(String classroomId);
+
+    List<String> getNullClassRoom(@Param("time") String time,@Param("build") String build);
 }

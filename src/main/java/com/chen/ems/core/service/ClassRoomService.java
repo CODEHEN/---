@@ -17,5 +17,7 @@ public interface ClassRoomService {
     void updateClassRoom(ClassRoomVO classRoomVO);
 
     Integer getId(String classroomId);
+
+    List<String> getNullClassRoom(String time, String build);
 }
 

@@ -26,7 +26,10 @@ ems:
     # 错误超过次数后多少分钟后才能继续登录（分钟）
     loginAfterTime: 10
     ignoreUrls:
-      - //rap/info?**
+      - /teach_build/info?**
+      - /classRoom/nullroom?**
+      - /user/info
+      - /rap/info?**
       - /course/classTask?**
       - /notice/info?**
       - /grade/student/cet?**

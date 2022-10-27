@@ -43,6 +43,13 @@ public class ClassRoomController {
         return ApiResult.ok(200,"修改成功");
     }
 
+    @GetMapping("/nullroom")
+    public ApiResult getNullClassRoom(@RequestParam("time") String time, @RequestParam("build") String build) {
+        List<String> nullClassRoome = classRoomService.getNullClassRoom(time,build);
+        return ApiResult.ok(200,"查询成功", nullClassRoome);
+
+    }
+
 
 
 }

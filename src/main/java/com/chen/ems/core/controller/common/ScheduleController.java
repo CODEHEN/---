@@ -35,8 +35,9 @@ public class ScheduleController {
         for (ScheduleVO schedule : scheduleVOS) {
             int classTime = Integer.parseInt(schedule.getClassTime());
             String sheduleInfo = schedule.getCourseName() + "\n" + schedule.getTeacherName() + "\n" +schedule.getBuildName()+ "\n"+schedule.getRoomName();
+            int week = classTime%5 ==0?classTime/5-1:classTime/5;
             int day = classTime%5 ==0 ?4:classTime%5-1;
-            scheduleTable[classTime/5][day] = sheduleInfo;
+            scheduleTable[week][day] = sheduleInfo;
         }
         return ApiResult.ok(200,"获取成功",scheduleTable);
     }
@@ -49,8 +50,9 @@ public class ScheduleController {
         for (ScheduleVO schedule : scheduleVOS) {
             int classTime = Integer.parseInt(schedule.getClassTime());
             String sheduleInfo = schedule.getCourseName() + "\n" + schedule.getTeacherName() + "\n" +schedule.getBuildName()+ "\n"+schedule.getRoomName();
+            int week = classTime%5 ==0?classTime/5-1:classTime/5;
             int day = classTime%5 ==0 ?4:classTime%5-1;
-            scheduleTable[classTime/5][day] = sheduleInfo;
+            scheduleTable[week][day] = sheduleInfo;
         }
         return ApiResult.ok(200,"获取成功",scheduleTable);
     }
@@ -63,8 +65,9 @@ public class ScheduleController {
         for (ScheduleVO schedule : scheduleVOS) {
             int classTime = Integer.parseInt(schedule.getClassTime());
             String sheduleInfo = schedule.getCourseName() + "\n" +schedule.getClassName()+"\n" + schedule.getBuildName()+ "\n" +schedule.getRoomName();
+            int week = classTime%5 ==0?classTime/5-1:classTime/5;
             int day = classTime%5 ==0 ?4:classTime%5-1;
-            scheduleTable[classTime/5][day] = sheduleInfo;
+            scheduleTable[week][day] = sheduleInfo;
         }
         return ApiResult.ok(200,"获取成功",scheduleTable);
     }
@@ -77,9 +80,10 @@ public class ScheduleController {
         for (ScheduleVO schedule : scheduleVOS) {
             int classTime = Integer.parseInt(schedule.getClassTime());
             String sheduleInfo = schedule.getCourseName() + "\n" + schedule.getTeacherName() + "\n"  + schedule.getClassName();
+            int week = classTime%5 ==0?classTime/5-1:classTime/5;
             int day = classTime%5 ==0 ?4:classTime%5-1;
-            if (scheduleTable[classTime/5][day] == null) {
-                scheduleTable[classTime/5][day] = sheduleInfo;
+            if (scheduleTable[week][day] == null) {
+                scheduleTable[week][day] = sheduleInfo;
             } else {
                 throw new MyException("课表错误");
             }

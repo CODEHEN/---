@@ -72,7 +72,7 @@ public class UserController {
         return ApiResult.ok(200,"获取成功",names);
     }
 
-    @PutMapping("/info")
+    @PostMapping("/info")
     @ApiOperation(value = "用户更新个人信息", httpMethod = "Put", response = ApiResult.class, notes = "更新成功")
     public ApiResult updateStudent(@RequestBody UserInfoVO userInfoVO){
         try{

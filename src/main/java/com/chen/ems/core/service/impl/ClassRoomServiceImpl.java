@@ -37,5 +37,10 @@ public class ClassRoomServiceImpl implements ClassRoomService {
     public Integer getId(String classroomId) {
         return classRoomMapper.getId(classroomId);
     }
+
+    @Override
+    public List<String> getNullClassRoom(String time, String build) {
+        return classRoomMapper.getNullClassRoom(time, build);
+    }
 }
 
